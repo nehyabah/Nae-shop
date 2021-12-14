@@ -5,22 +5,27 @@ import Rating from '../components/Rating';
 import products from '../products';
 import {useParams} from 'react-router'
 
-
-interface productPageProps{
+type productPageProps = {
     match?: any;
     product?: string;
     params?: any;
     _id?: string;
-    p?: any;
+    p?: string;
+    name?: string;
+    rating?: number;
+    price?: number;
+    description?: string;
+    countInStock?: number;
 }
 
 
 
 
 
-const ProductPage: React.FC<productPageProps> = ({ match }) => {
-    // const { id } = useParams();
-const product = products.find(p => p._id === match.params.id)
+const ProductPage: React.FC<productPageProps> = () => {
+    const { id } = useParams < {id:string}>();
+    const product = products.find(p => p._id === id)
+    
 
     return (
         <>
@@ -29,12 +34,57 @@ const product = products.find(p => p._id === match.params.id)
         </Link>
         <Row>
                 <Col md={6}>
-                    <Image src={product?.image} alt={product?.name}/>
+                    <Image src={product?.image} alt={product?.name} fluid/>
                 </Col>
 
-                <Col md={3}></Col>
-            </Row>
-            </>
+                <Col md={3}>
+                    <ListGroup variant='flush'>
+                        <ListGroup.Item>
+                            <h3>{product?.name}</h3>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <Rating rating={product?.rating} numReviews={`${product?.numReviews} Reviews`}/>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            Price: £{product?.price}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            Description: £{product?.description}
+                        </ListGroup.Item>
+                    </ListGroup>
+                </Col>
+                <Col md={3}>
+                     <Card>
+                    <ListGroup variant='flush'>
+                        <ListGroup.Item>
+                            <Row>
+                               
+                                <Col>
+                                    Price
+                                </Col>
+                                <Col>
+                                    <strong>{ product?.price}</strong>
+                                </Col>
+                            </Row>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <Row>
+                                <Col>
+                                    Status:
+                                </Col>
+                                <Col>
+                                    <strong>{product && product?.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}</strong>
+                                </Col>
+                            </Row>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <Button className='btn-block' type='button' disabled ={product?.countInStock===0}>Add to cart</Button>
+                        </ListGroup.Item>
+                    </ListGroup>
+                        </Card>
+                </Col>
+        </Row>
+        </>
     )
 }
 
