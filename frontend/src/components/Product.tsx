@@ -15,15 +15,15 @@ export type ProductType ={
 };
 
 
-const Product : React.FC <ProductType> = ({product}) => {
+const Product: React.FC<ProductType> = (product) => {
     return (
         <Card className='my-3 p-3 rounded'>
-            <Link to ={`/product/${product._id}`}>
+            <Link to ={`/products/${product._id}`}>
                 <Card.Img src={product.image} variant='top'></Card.Img>
             </Link>
             
             <Card.Body>
-                <Link to ={`/product/${product._id}`}>
+                <Link to ={`/products/${product._id}`}>
                     <Card.Title as='div'><strong>{product.name}</strong></Card.Title>
                 </Link>
                 <Card.Text as='div'>
