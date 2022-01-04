@@ -1,7 +1,8 @@
-import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL } from "../constatns/productsConstants"
+import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL } from "../action-types/actionTypes"
 
+import { Action } from "../context" 
 
-export const productListReducer = (state = { products: [] }, action: ActionProps) => {
+export const productListReducer = (state = { products: [] }, action: Action) => {
     switch (action.type) {
         case PRODUCT_LIST_REQUEST:
             return { loading: true, products: [] }
