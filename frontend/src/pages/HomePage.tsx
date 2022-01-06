@@ -1,40 +1,56 @@
-import React, {useState, useEffect} from 'react'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Row, Col } from "react-bootstrap";
+import Product from "../components/Product";
+import Message from "../components/Message";
+import Loading from "../components/Loading";
+import { listProducts } from "../context/productContext";
+import { productListReducer } from "../Reducers/productReducers";
+import { RootState } from "../reduxStore";
+import { ProductType } from "../components/Product";
 
-import { Row, Col } from 'react-bootstrap'
-import Product from '../components/Product'
-import axios from 'axios'
-
-
-interface HomePagePropTypes{
-    _id?: number;
+interface HomePagePropTypes {
+  _id?: number;
+  // product?: product[];
 }
 
 const HomePage: React.FC<HomePagePropTypes> = () => {
-    
-    const [products, setProducts] = useState([])
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            const {data} = await axios.get('/api/products')
+  const productList = useSelector((state: RootState) => {
+    return state.productList;
+  });
+  const {
+    loading,
+    error,
+    products,
+  }: { loading: boolean; error: boolean; products: ProductType[] } =
+    productList;
 
-            setProducts(data)
-        }
+  useEffect(() => {
+    dispatch(listProducts());
+  }, [dispatch]);
 
-        fetchProducts()
-    },[])
-    return (
-        <>
-            <h1>Latest products</h1>
-            <Row>
-                {products.map((product) => {
-                    return (
-                        <Col sm={12} md={6} lg={4} xl={3}>
-                            <Product {...product} />
-                        </Col>
-                    );
-            })}</Row>
-        </>
-    )
-}
+  return (
+    <>
+      <h1>Latest products</h1>
+      {loading ? (
+        <Loading/>
+      ) : error ? (
+        <Message variant ='danger'>{error}</Message>
+      ) : (
+        <Row>
+          {products.map((product) => {
+            return (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Product {...product} />
+              </Col>
+            );
+          })}
+        </Row>
+      )}
+    </>
+  );
+};
 
-export default HomePage
+export default HomePage;
