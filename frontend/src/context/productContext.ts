@@ -26,3 +26,24 @@ export const listProducts = () => async (dispatch: Dispatch) => {
         })
     }
 }
+
+export const listProductDetails = (id: string | undefined) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: ActionType.SINGLE_PRODUCT_REQUEST });
+
+    const { data } = await axios.get(`/api/products${id}`);
+
+    dispatch({
+      type: ActionType.SINGLE_PRODUCT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ActionType.SINGLE_PRODUCT_FAIL,
+      payload: error,
+      //   error.response && error.response.data.message
+      //     ? error.response.data.message
+      //     : error.message,
+    });
+  }
+};

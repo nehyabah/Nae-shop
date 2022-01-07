@@ -18,9 +18,9 @@ export const productListReducer = (state = { products: [] }, action: ActionProps
 export const singleProductReducer = (state = { product: { reviews:[]} }, action: ActionProps) => {
     switch (action.type) {
       case ActionType.SINGLE_PRODUCT_REQUEST:
-        return { loading: true, products: [] };
+        return { loading: true, ...state };
       case ActionType.SINGLE_PRODUCT_SUCCESS:
-        return { loading: false, products: action.payload };
+        return { loading: false, product: action.payload };
       case ActionType.SINGLE_PRODUCT_FAIL:
         return { loading: false, error: action.payload };
       default:
