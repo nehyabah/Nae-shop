@@ -1,45 +1,22 @@
-import axios from 'axios'
-import { Dispatch } from 'redux'
+import axios from "axios";
+import { Dispatch } from "redux";
 
-import { ActionType, ActionProps} from '../action-types/actionTypes'
+import { ActionType, ActionProps } from "../action-types/actionTypes";
 // import {ActionType} from '../action-types/index'
 
-
-
 export const listProducts = () => async (dispatch: Dispatch) => {
-    try {
-        dispatch({ type: ActionType.PRODUCT_LIST_REQUEST })
-        
-        const { data } = await axios.get('/api/products')
-        
-        dispatch({
-            type: ActionType.PRODUCT_LIST_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        dispatch({
-            type: ActionType.PRODUCT_LIST_FAIL,
-             payload: error
-        //   error.response && error.response.data.message
-        //     ? error.response.data.message
-        //     : error.message,
-        })
-    }
-}
-
-export const listProductDetails = (id: string | undefined) => async (dispatch: Dispatch) => {
   try {
-    dispatch({ type: ActionType.SINGLE_PRODUCT_REQUEST });
+    dispatch({ type: ActionType.PRODUCT_LIST_REQUEST });
 
-    const { data } = await axios.get(`/api/products${id}`);
+    const { data } = await axios.get("/api/products");
 
     dispatch({
-      type: ActionType.SINGLE_PRODUCT_SUCCESS,
+      type: ActionType.PRODUCT_LIST_SUCCESS,
       payload: data,
     });
   } catch (error) {
     dispatch({
-      type: ActionType.SINGLE_PRODUCT_FAIL,
+      type: ActionType.PRODUCT_LIST_FAIL,
       payload: error,
       //   error.response && error.response.data.message
       //     ? error.response.data.message
@@ -47,3 +24,27 @@ export const listProductDetails = (id: string | undefined) => async (dispatch: D
     });
   }
 };
+
+export const listProductDetails =
+  (id: string | undefined) => async (dispatch: Dispatch) => {
+    try {
+      dispatch({ type: ActionType.SINGLE_PRODUCT_REQUEST });
+
+      const { data } = await axios.get(`/api/products/${id}`);
+      console.log("data", data);
+
+      dispatch({
+        type: ActionType.SINGLE_PRODUCT_SUCCESS,
+        payload: data,
+      });
+    
+    } catch (error: any) {
+      dispatch({
+        type: ActionType.SINGLE_PRODUCT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

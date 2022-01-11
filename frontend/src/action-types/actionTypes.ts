@@ -6,6 +6,10 @@ export enum ActionType {
   SINGLE_PRODUCT_REQUEST = "SINGLE_PRODUCT_REQUEST",
   SINGLE_PRODUCT_SUCCESS = "SINGLE_PRODUCT_SUCCESS",
   SINGLE_PRODUCT_FAIL = "SINGLE_PRODUCT_FAIL",
+
+  CART_ADD_ITEM = "CART_ADD_ITEM",
+  CART_REMOVE_ITEM = "CART_REMOVE_ITEM",
+
 }
 
 // props (types of action)
@@ -51,10 +55,28 @@ interface singleProductFail {
   payload: { error: string };
 }
 
+interface cartAddItem {
+  type: ActionType.CART_ADD_ITEM;
+  payload: {
+    productId?: string;
+    name: string;
+    image: string;
+    price: number;
+    countInStock: number;
+    qty: number;
+  };
+}
+interface cartRemoveItem {
+  type: ActionType.CART_REMOVE_ITEM;
+  payload: {};
+}
+
 export type ActionProps =
   | productRequestAction
   | productSuccessAction
   | productFailAction
   | singleProductRequest
   | singleProductSuccess
-  | singleProductFail;
+  | singleProductFail
+  | cartAddItem
+  | cartRemoveItem;
