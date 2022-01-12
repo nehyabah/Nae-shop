@@ -8,7 +8,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 const Header: React.FC = () => {
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
+      <Navbar bg="black" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand>Naemazon</Navbar.Brand>
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <LinkContainer to="/cart">
+              <LinkContainer to="/cart/:id">
                 <Nav.Link>
                   <i className="fas fa-shopping-cart"> </i>Cart
                 </Nav.Link>

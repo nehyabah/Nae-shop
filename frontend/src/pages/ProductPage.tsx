@@ -56,11 +56,10 @@ const ProductPage: React.FC<productPageProps> = ({
 
   const { loading, error, product } = productDetails;
   // const product = listProductDetails;
-  console.log("product", product);
 
   useEffect(() => {
     dispatch(listProductDetails(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   const addToCartHandler = () => {
     push(`/cart/${id}?qty=${qty}`);
@@ -156,7 +155,7 @@ const ProductPage: React.FC<productPageProps> = ({
 
                 <ListGroup.Item>
                   <Button
-                    onClick={addToCartHandler}
+                    onClick={() => addToCartHandler()}
                     className="btn-block"
                     type="button"
                     disabled={product?.countInStock === 0}

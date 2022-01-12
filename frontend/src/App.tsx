@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./components/Header";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
 import Footer from "./components/Footer";
 import { Container } from "react-bootstrap";
 import HomePage from "./pages/HomePage";
@@ -16,7 +16,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/products/:id" element={<ProductPage />} />
-            <Route path="/cart/:id?" element={<CartPage />} />
+            <Route path="/cart/:id" element={<CartPage/>} />
           </Routes>
         </Container>
       </main>

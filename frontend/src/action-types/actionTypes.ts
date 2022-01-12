@@ -10,6 +10,11 @@ export enum ActionType {
   CART_ADD_ITEM = "CART_ADD_ITEM",
   CART_REMOVE_ITEM = "CART_REMOVE_ITEM",
 
+  USER_LOGIN_REQUEST = "USER_LOGIN_REQUEST",
+  USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS",
+  USER_LOGIN_FAIL = "USER_LOGIN_FAIL",
+  USER_LOGOUT = "USER_LOGOUT",
+
 }
 
 // props (types of action)
@@ -35,6 +40,7 @@ interface productSuccessAction {
       rating?: number;
       _id?: number;
       color?: any;
+
     };
   };
 }
@@ -58,7 +64,7 @@ interface singleProductFail {
 interface cartAddItem {
   type: ActionType.CART_ADD_ITEM;
   payload: {
-    productId?: string;
+    productId?: any;
     name: string;
     image: string;
     price: number;
@@ -68,7 +74,23 @@ interface cartAddItem {
 }
 interface cartRemoveItem {
   type: ActionType.CART_REMOVE_ITEM;
-  payload: {};
+  payload: string;
+}
+interface userLoginRequest {
+  type: ActionType.USER_LOGIN_REQUEST;
+  payload: string;
+}
+interface userLoginSuccess {
+  type: ActionType.USER_LOGIN_SUCCESS;
+  payload: string;
+}
+interface userLoginFail {
+  type: ActionType.USER_LOGIN_FAIL;
+  payload: string;
+}
+interface userLogout {
+  type: ActionType.USER_LOGOUT;
+  payload: string;
 }
 
 export type ActionProps =
@@ -79,4 +101,8 @@ export type ActionProps =
   | singleProductSuccess
   | singleProductFail
   | cartAddItem
-  | cartRemoveItem;
+  | cartRemoveItem
+  | userLoginRequest
+  | userLoginSuccess
+  | userLoginFail
+  | userLogout;

@@ -31,13 +31,11 @@ export const listProductDetails =
       dispatch({ type: ActionType.SINGLE_PRODUCT_REQUEST });
 
       const { data } = await axios.get(`/api/products/${id}`);
-      console.log("data", data);
 
       dispatch({
         type: ActionType.SINGLE_PRODUCT_SUCCESS,
         payload: data,
       });
-    
     } catch (error: any) {
       dispatch({
         type: ActionType.SINGLE_PRODUCT_FAIL,
