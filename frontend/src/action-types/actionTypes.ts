@@ -15,6 +15,13 @@ export enum ActionType {
   USER_LOGIN_FAIL = "USER_LOGIN_FAIL",
   USER_LOGOUT = "USER_LOGOUT",
 
+  USER_REGISTER_REQUEST = "USER_REGISTER_REQUEST",
+  USER_REGISTER_SUCCESS = "USER_REGISTER_SUCCESS",
+  USER_REGISTER_FAIL = "USER_REGISTER_FAIL",
+
+  USER_DETAILS_REQUEST = "USER_DETAILS_REQUEST",
+  USER_DETAILS_SUCCESS = "USER_DETAILS_SUCCESS",
+  USER_DETAILS_FAIL = "USER_DETAILS_FAIL",
 }
 
 // props (types of action)
@@ -40,7 +47,6 @@ interface productSuccessAction {
       rating?: number;
       _id?: number;
       color?: any;
-
     };
   };
 }
@@ -92,6 +98,30 @@ interface userLogout {
   type: ActionType.USER_LOGOUT;
   payload: string;
 }
+interface userRegisterRequest {
+  type: ActionType.USER_REGISTER_REQUEST;
+  payload: string;
+}
+interface userRegisterSuccess {
+  type: ActionType.USER_REGISTER_SUCCESS;
+  payload: string;
+}
+interface userRegisterFail {
+  type: ActionType.USER_REGISTER_FAIL;
+  payload: string;
+}
+interface userDetailsRequest {
+  type: ActionType.USER_DETAILS_REQUEST;
+  payload: string;
+}
+interface userDetailsSuccess {
+  type: ActionType.USER_DETAILS_SUCCESS;
+  payload: string;
+}
+interface userDetailsFail {
+  type: ActionType.USER_DETAILS_FAIL;
+  payload: string;
+}
 
 export type ActionProps =
   | productRequestAction
@@ -105,4 +135,10 @@ export type ActionProps =
   | userLoginRequest
   | userLoginSuccess
   | userLoginFail
-  | userLogout;
+  | userLogout
+  | userRegisterRequest
+  | userRegisterSuccess
+  | userRegisterFail
+  | userDetailsRequest
+  | userDetailsSuccess
+  | userDetailsFail;
