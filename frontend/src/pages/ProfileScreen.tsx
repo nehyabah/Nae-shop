@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loading from "../components/Loading";
 
-import { getUserDetails } from "../context/userContext";
+import {
+  getUserDetails,
+  updateUserProfileDetails,
+} from "../context/userContext";
 import { RootState } from "../reduxStore";
 
 interface Props {
@@ -14,10 +17,10 @@ interface Props {
 }
 
 const ProfilePage: React.FC<Props> = ({ location }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [message, setMessage] = useState<boolean | string | null>(null);
 
   const { search } = useLocation();
@@ -29,11 +32,18 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
     return state.userDetails;
   });
   const { loading, error, user } = userDetails;
+
   const userLogin = useSelector((state: RootState) => {
     return state.userLogin;
   });
 
-  const { userInfo } = userLogin;
+    const { userInfo } = userLogin;
+    
+  const userUpdateProfile = useSelector((state: RootState) => {
+    return state.userUpdateProfile;
+  });
+
+  const { success } = userUpdateProfile;
 
   useEffect(() => {
     if (!userInfo) {
@@ -55,6 +65,9 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
       setMessage("Passwords do not match");
     } else {
       // DISPATCH UPDATE
+      dispatch(
+        updateUserProfileDetails({ id: user._id, name, email, password })
+      );
     }
   };
 
@@ -63,7 +76,8 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <h4>{message}</h4>}
-        {error && <Message variant="danger">{error}</Message>}
+        {error && <h4 style={{ color: "red" }}>{error}</h4>}
+        {success && <h4 style={{ color: "lightgreen" }}>Profile Updated</h4>}
         {loading && <Loading />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="name">

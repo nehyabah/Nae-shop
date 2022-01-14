@@ -11,7 +11,15 @@ interface cart {
     existItem?: any | undefined;
     tempCart?: any | undefined;
   }[];
+  shippingAddress?: {
+    address?: string | undefined;
+    city?: string | undefined;
+    postcode?: string | undefined;
+    country?: string | undefined;
+  };
 }
+
+
 
 interface x {
   countInStock: number;
@@ -22,7 +30,7 @@ interface x {
   qty: number;
 }
 export const cartReducer = (
-  state = { cartItems: [] },
+  state = { cartItems: [], shippingAddress:{} },
   action: ActionProps
 ): cart => {
   if (action.type === ActionType.CART_ADD_ITEM) {
@@ -51,6 +59,12 @@ export const cartReducer = (
     });
 
     return { ...state, cartItems: newCart };
+  }
+
+  if (action.type === ActionType.CART_SAVE_SHIPPING_ADDRESS) {
+    const shippingAddress: string = action.payload;
+
+    return { ...state, shippingAddress: action.payload };
   }
 
   return state;

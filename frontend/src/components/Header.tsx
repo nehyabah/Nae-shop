@@ -10,17 +10,15 @@ import { logout } from "../context/userContext";
 
 // }
 const Header: React.FC = () => {
-  const dispatch = useDispatch()
-  const userLogin = useSelector((state: RootState)=>{
-    return state.userLogin
-  })
-  const { userInfo } = userLogin
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state: RootState) => {
+    return state.userLogin;
+  });
+  const { userInfo } = userLogin;
 
-  
   const logoutHandler = () => {
     dispatch(logout());
-    
-  }
+  };
   return (
     <header>
       <Navbar bg="black" variant="dark" expand="lg" collapseOnSelect>
@@ -38,19 +36,22 @@ const Header: React.FC = () => {
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id='username'>
-                  <LinkContainer to='/profile'>
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
 
-                  <NavDropdown.Item onClick={logoutHandler}>logout</NavDropdown.Item>
-          </NavDropdown>      
-) :  <LinkContainer to="/login">
-                <Nav.Link>
-                  <i className="fas fa-user"> </i>Sign in
-                </Nav.Link>
-              </LinkContainer>}
-             
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fas fa-user"> </i>Sign in
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

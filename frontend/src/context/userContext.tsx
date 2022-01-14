@@ -36,6 +36,12 @@ export const login =
       });
     }
   };
+export const logout = () => (dispatch: Dispatch) => {
+  localStorage.removeItem("userInfo");
+  dispatch({ type: ActionType.USER_LOGOUT });
+};
+
+
 export const register =
   (name: string, email: string, password: string) =>
   async (dispatch: Dispatch) => {
@@ -75,6 +81,7 @@ export const register =
       });
     }
   };
+
 export const getUserDetails =
   (id: string) => async (dispatch: Dispatch, getState: () => RootState) => {
     try {
@@ -108,7 +115,44 @@ export const getUserDetails =
     }
   };
 
-export const logout = () => (dispatch: Dispatch) => {
-  localStorage.removeItem("userInfo");
-  dispatch({ type: ActionType.USER_LOGOUT });
-};
+interface userUpdateProps {
+  id?: string;
+  name: string;
+  email: string;
+  token?: string;
+  password?: string;
+}
+
+export const updateUserProfileDetails =
+  (user: userUpdateProps) =>
+  async (dispatch: Dispatch, getState: () => RootState) => {
+    try {
+      dispatch({
+        type: ActionType.USER_UPDATE_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(`/api/users/profile`, user, config);
+      dispatch({
+        type: ActionType.USER_UPDATE_SUCCESS,
+        payload: data,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: ActionType.USER_UPDATE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

@@ -135,7 +135,7 @@ const CartPage: React.FC<cartItems> = (props: cartItems) => {
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
               >
-                {" "}
+                
                 Proceed to checkout
               </Button>
             </ListGroup.Item>

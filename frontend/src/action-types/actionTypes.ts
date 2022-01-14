@@ -9,6 +9,7 @@ export enum ActionType {
 
   CART_ADD_ITEM = "CART_ADD_ITEM",
   CART_REMOVE_ITEM = "CART_REMOVE_ITEM",
+  CART_SAVE_SHIPPING_ADDRESS = "CART_SAVE_SHIPPING_ADDRESS",
 
   USER_LOGIN_REQUEST = "USER_LOGIN_REQUEST",
   USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS",
@@ -22,6 +23,11 @@ export enum ActionType {
   USER_DETAILS_REQUEST = "USER_DETAILS_REQUEST",
   USER_DETAILS_SUCCESS = "USER_DETAILS_SUCCESS",
   USER_DETAILS_FAIL = "USER_DETAILS_FAIL",
+
+  USER_UPDATE_REQUEST = "USER_UPDATE_REQUEST",
+  USER_UPDATE_SUCCESS = "USER_UPDATE_SUCCESS",
+  USER_UPDATE_FAIL = "USER_UPDATE_FAIL",
+  USER_UPDATE_RESET = "USER_UPDATE_RESET",
 }
 
 // props (types of action)
@@ -82,6 +88,10 @@ interface cartRemoveItem {
   type: ActionType.CART_REMOVE_ITEM;
   payload: string;
 }
+interface cartSaveShippingAddress {
+  type: ActionType.CART_SAVE_SHIPPING_ADDRESS;
+  payload: any;
+}
 interface userLoginRequest {
   type: ActionType.USER_LOGIN_REQUEST;
   payload: string;
@@ -122,6 +132,22 @@ interface userDetailsFail {
   type: ActionType.USER_DETAILS_FAIL;
   payload: string;
 }
+interface userUpdateRequest {
+  type: ActionType.USER_UPDATE_REQUEST;
+  payload: string;
+}
+interface userUpdateSuccess {
+  type: ActionType.USER_UPDATE_SUCCESS;
+  payload: any;
+}
+interface userUpdateFail {
+  type: ActionType.USER_UPDATE_FAIL;
+  payload: string;
+}
+interface userUpdateReset {
+  type: ActionType.USER_UPDATE_RESET;
+  payload: string;
+}
 
 export type ActionProps =
   | productRequestAction
@@ -141,4 +167,9 @@ export type ActionProps =
   | userRegisterFail
   | userDetailsRequest
   | userDetailsSuccess
-  | userDetailsFail;
+  | userDetailsFail
+  | userUpdateRequest
+  | userUpdateSuccess
+  | userUpdateFail
+  | userUpdateReset
+  | cartSaveShippingAddress;
