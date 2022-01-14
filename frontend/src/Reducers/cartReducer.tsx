@@ -17,6 +17,7 @@ interface cart {
     postcode?: string | undefined;
     country?: string | undefined;
   };
+  paymentMethod?:string
 }
 
 
@@ -65,6 +66,11 @@ export const cartReducer = (
     const shippingAddress: string = action.payload;
 
     return { ...state, shippingAddress: action.payload };
+  }
+  if (action.type === ActionType.CART_SAVE_PAYMENT_METHOD) {
+    const paymentMethod: string = action.payload;
+
+    return { ...state, paymentMethod: action.payload };
   }
 
   return state;

@@ -10,6 +10,7 @@ export enum ActionType {
   CART_ADD_ITEM = "CART_ADD_ITEM",
   CART_REMOVE_ITEM = "CART_REMOVE_ITEM",
   CART_SAVE_SHIPPING_ADDRESS = "CART_SAVE_SHIPPING_ADDRESS",
+  CART_SAVE_PAYMENT_METHOD = "CART_SAVE_PAYMENT_METHOD",
 
   USER_LOGIN_REQUEST = "USER_LOGIN_REQUEST",
   USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS",
@@ -92,6 +93,10 @@ interface cartSaveShippingAddress {
   type: ActionType.CART_SAVE_SHIPPING_ADDRESS;
   payload: any;
 }
+interface cartSavePaymentMethod {
+  type: ActionType.CART_SAVE_PAYMENT_METHOD;
+  payload: any;
+}
 interface userLoginRequest {
   type: ActionType.USER_LOGIN_REQUEST;
   payload: string;
@@ -172,4 +177,5 @@ export type ActionProps =
   | userUpdateSuccess
   | userUpdateFail
   | userUpdateReset
-  | cartSaveShippingAddress;
+  | cartSaveShippingAddress
+  | cartSavePaymentMethod;

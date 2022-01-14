@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reduxStore";
 import FormContainer from "../components/FormContainer";
 import CheckoutSteps from "../components/CheckoutSteps";
-import { saveShippingAddress } from "../context/cartContext";
+import { savePaymentMethod } from "../context/cartContext";
 
 interface Props {}
 
@@ -14,66 +14,49 @@ const PaymentPage = (props: Props) => {
     return state.cart;
   });
   const { shippingAddress } = cart;
-
-  const [address, setAddress] = useState<string>(shippingAddress.address);
-  const [city, setCity] = useState<string>(shippingAddress.city);
-  const [postalCode, setPostalCode] = useState<string>(
-    shippingAddress.postalCode
-  );
-  const [country, setCountry] = useState<string>(shippingAddress.country);
   const push = useNavigate();
+  if (!shippingAddress) {
+    push("/shipping");
+  }
+
+  const [paymentMethod, setPaymentMethod] = useState<string>("Paypal");
+
   const dispatch = useDispatch();
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(saveShippingAddress({ address, city, postalCode, country }));
-    push("/payment");
+    dispatch(savePaymentMethod(paymentMethod));
+    push("/placeorder");
   };
 
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 step3 step4 />
-      <h1>shipping</h1>
+      <h1>Payment Method</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="address">
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            type="address"
-            placeholder="Enter address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+        <Form.Group>
+          <Form.Label as="legend">Select Method</Form.Label>
 
-        <Form.Group controlId="city" className="py-3">
-          <Form.Label>City</Form.Label>
-          <Form.Control
-            type="city"
-            placeholder="Enter city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          ></Form.Control>
+          <Col>
+            <Form.Check className='mb-4'
+              type="radio"
+              label="Paypal or credit Card"
+              id="payPal"
+              name="paymentMethod"
+              value="payPal"
+              checked
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            ></Form.Check>
+            <Form.Check
+              type="radio"
+              label="Stripe"
+              id="Stripe"
+              name="paymentMethod"
+              value="Stripe"
+              checked
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            ></Form.Check>
+          </Col>
         </Form.Group>
-
-        <Form.Group controlId="postalCode" className="py-3">
-          <Form.Label>Postal Code</Form.Label>
-          <Form.Control
-            type="postalCode"
-            placeholder="Enter postal code"
-            value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="country" className="py-3">
-          <Form.Label>Country</Form.Label>
-          <Form.Control
-            type="country"
-            placeholder="Enter Country"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
         <Button type="submit" variant="primary">
           Continue
         </Button>

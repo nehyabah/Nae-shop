@@ -31,7 +31,7 @@ const ShippingPage = (props: Props) => {
 
   return (
     <FormContainer>
-      <CheckoutSteps step1 step2 step3 step4 />
+      <CheckoutSteps step1 step2 step3 step4/>
       <h1>shipping</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="address">
