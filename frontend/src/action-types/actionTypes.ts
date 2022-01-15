@@ -33,6 +33,10 @@ export enum ActionType {
   ORDER_CREATE_REQUEST = " ORDER_CREATE_REQUEST",
   ORDER_CREATE_SUCCESS = " ORDER_CREATE_SUCCESS",
   ORDER_CREATE_FAIL = " ORDER_CREATE_FAIL",
+
+  ORDER_DETAILS_REQUEST = " ORDER_DETAILS_REQUEST",
+  ORDER_DETAILS_SUCCESS = " ORDER_DETAILS_SUCCESS",
+  ORDER_DETAILS_FAIL = " ORDER_DETAILS_FAIL",
 }
 
 // props (types of action)
@@ -169,6 +173,18 @@ interface orderCreateFail {
   type: ActionType.ORDER_CREATE_FAIL;
   payload: string;
 }
+interface orderDetailsRequest {
+  type: ActionType.ORDER_DETAILS_REQUEST;
+  payload: string;
+}
+interface orderDetailsSuccess {
+  type: ActionType.ORDER_DETAILS_SUCCESS;
+  payload: string;
+}
+interface orderDetailsFail {
+  type: ActionType.ORDER_DETAILS_FAIL;
+  payload: string;
+}
 
 export type ActionProps =
   | productRequestAction
@@ -197,4 +213,7 @@ export type ActionProps =
   | cartSavePaymentMethod
   | orderCreateRequest
   | orderCreateSuccess
-  | orderCreateFail; 
+  | orderCreateFail
+  | orderDetailsRequest
+  | orderDetailsSuccess
+  | orderDetailsFail;
