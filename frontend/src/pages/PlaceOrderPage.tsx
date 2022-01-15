@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,7 @@ import { RootState } from "../reduxStore";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
+import { createOrder } from "../context/orderContext";
 
 interface cartItemProps {
   name?: string;
@@ -13,15 +14,37 @@ interface cartItemProps {
   price?: number;
   qty?: number;
 
-  product?: string;
+  productId?: string;
 }
 
 const PlaceOrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
+  const dispatch = useDispatch();
+  const push = useNavigate();
   const cart = useSelector((state: RootState) => {
     return state.cart;
   });
+
+  const orderCreate = useSelector((state: RootState) => {
+    return state.orderCreate;
+  });
+  const { order, success, error } = orderCreate;
+  useEffect(() => {
+    if (success) {
+      push(`/order/${order._id}`);
+    }
+  }, [success]);
   const placeOrderHandler = () => {
-    console.log("order");
+    dispatch(
+      createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      })
+    );
   };
 
   // calculate prices
@@ -46,7 +69,6 @@ const PlaceOrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
     Number(cart.taxPrice)
   ).toFixed(2);
 
-  const dispatch = useDispatch();
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -90,9 +112,7 @@ const PlaceOrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
                               {item.name}
                             </Link>
                           </Col>
-                          <Col md={4}>
-                            {item.qty} x {item.price} = ${item.qty * item.price}
-                          </Col>
+                          <Col md={4}>${item.qty * item.price}</Col>
                         </Row>
                       </ListGroup.Item>
                     )
@@ -132,6 +152,9 @@ const PlaceOrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
                   <Col>${cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+
+              <ListGroup.Item>{error && <h4>{error}</h4>}</ListGroup.Item>
+
               <ListGroup.Item>
                 <Button
                   type="button"
