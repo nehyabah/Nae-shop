@@ -1,6 +1,6 @@
-![Home Page](https://i.ibb.co/YDW9FWL/Screenshot-2022-01-17-at-20-19-34.png) \
+![Home Page](https://i.ibb.co/YDW9FWL/Screenshot-2022-01-17-at-20-19-34.png) 
 
-![Single Product Page](https://i.ibb.co/YpjWhbm/Screenshot-2022-01-17-at-20-18-24.png)\
+![Single Product Page](https://i.ibb.co/YpjWhbm/Screenshot-2022-01-17-at-20-18-24.png)
 
 
 ![Edit User Page ](https://i.ibb.co/z816WGM/Screenshot-2022-01-17-at-20-20-00.png)
