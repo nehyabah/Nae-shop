@@ -6,7 +6,7 @@ export const orderCreateReducer = (
 ) => {
   switch (action.type) {
     case ActionType.ORDER_CREATE_REQUEST:
-      return { loading: true };
+      return {  loading: true };
     case ActionType.ORDER_CREATE_SUCCESS:
       return { loading: false, success:true, order: action.payload };
     case ActionType.ORDER_CREATE_FAIL:
@@ -18,14 +18,14 @@ export const orderCreateReducer = (
 
 
 export const orderDetailsReducer = (
-  state = { },
+  state = { loading: true, orderItems: [], shippingAddress: [] },
   action: ActionProps
 ) => {
   switch (action.type) {
     case ActionType.ORDER_DETAILS_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case ActionType.ORDER_DETAILS_SUCCESS:
-      return { loading: false, success:true, order: action.payload };
+      return { loading: false,  order: action.payload };
     case ActionType.ORDER_DETAILS_FAIL:
       return { loading: false, error: action.payload };
     default:
