@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reduxStore";
-import Message from "../components/Message";
 import { Link } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { createOrder } from "../context/orderContext";
@@ -27,7 +26,7 @@ const PlaceOrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
   const orderCreate = useSelector((state: RootState) => {
     return state.orderCreate;
   });
-  const { order, success, error } = orderCreate;
+  const { order, success } = orderCreate;
   useEffect(() => {
     if (success) {
       push(`/order/${order._id}`);
@@ -152,8 +151,8 @@ const PlaceOrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
                   <Col>£{cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-
-              <ListGroup.Item>{error && <h4>{error}</h4>}</ListGroup.Item>
+{/* 
+              <ListGroup.Item>{error && <h4>{error}</h4>}</ListGroup.Item> */}
 
               <ListGroup.Item>
                 <Button

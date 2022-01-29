@@ -37,6 +37,18 @@ export enum ActionType {
   ORDER_DETAILS_REQUEST = " ORDER_DETAILS_REQUEST",
   ORDER_DETAILS_SUCCESS = " ORDER_DETAILS_SUCCESS",
   ORDER_DETAILS_FAIL = " ORDER_DETAILS_FAIL",
+
+
+  ORDER_PAY_REQUEST = " ORDER_PAY_REQUEST",
+  ORDER_PAY_SUCCESS = " ORDER_PAY_SUCCESS",
+  ORDER_PAY_FAIL = " ORDER_PAY_FAIL",
+  ORDER_PAY_RESET = " ORDER_PAY_RESET",
+
+
+  MY_ORDER_LIST_REQUEST = " MY_ORDER_LIST_REQUEST",
+  MY_ORDER_LIST_SUCCESS = " MY_ORDER_LIST_SUCCESS",
+  MY_ORDER_LIST_FAIL = " MY_ORDER_LIST_FAIL",
+ 
 }
 
 // props (types of action)
@@ -185,6 +197,35 @@ interface orderDetailsFail {
   type: ActionType.ORDER_DETAILS_FAIL;
   payload: string;
 }
+interface orderPayRequest {
+  type: ActionType.ORDER_PAY_REQUEST;
+  payload: string;
+}
+interface orderPaySuccess {
+  type: ActionType.ORDER_PAY_SUCCESS;
+  payload: string;
+}
+interface orderPayFail {
+  type: ActionType.ORDER_PAY_FAIL;
+  payload: string;
+}
+interface orderPayReset {
+  type: ActionType.ORDER_PAY_RESET;
+  payload: string;
+}
+interface myOrdersRequest {
+  type: ActionType.MY_ORDER_LIST_REQUEST;
+  payload: string;
+}
+interface myOrdersSuccess {
+  type: ActionType.MY_ORDER_LIST_SUCCESS;
+  payload: string;
+}
+interface myOrdersFail {
+  type: ActionType.MY_ORDER_LIST_FAIL;
+  payload: string;
+}
+
 
 export type ActionProps =
   | productRequestAction
@@ -216,4 +257,11 @@ export type ActionProps =
   | orderCreateFail
   | orderDetailsRequest
   | orderDetailsSuccess
-  | orderDetailsFail;
+  | orderDetailsFail
+  | orderPayRequest
+  | orderPaySuccess
+  | orderPayFail
+  | orderPayReset
+  | myOrdersRequest
+  | myOrdersSuccess
+  | myOrdersFail;

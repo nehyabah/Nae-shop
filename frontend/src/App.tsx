@@ -1,6 +1,6 @@
-import React from "react";
+
 import Header from "./components/Header";
-import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Footer from "./components/Footer";
 import { Container } from "react-bootstrap";
 import HomePage from "./pages/HomePage";

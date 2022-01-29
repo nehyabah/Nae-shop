@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { PayPalButton } from "react-paypal-button-v2";
 import { useNavigate } from "react-router";
-import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reduxStore";
 import Message from "../components/Message";
 import { Link, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
-import { getOrderDetails } from "../context/orderContext";
+import { getOrderDetails, payOrder } from "../context/orderContext";
+import { ActionType } from "../action-types/actionTypes";
 
 interface cartItemProps {
   name?: string;
@@ -26,27 +29,52 @@ interface orderItemProps {
   productId?: string;
 }
 
+// declare global {
+//   interface Window {
+//     paypal?: any ;
+//   }
+// }
+
 const OrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
   const dispatch = useDispatch();
-  const push = useNavigate();
-
   const { id: orderId } = useParams<{ id?: string }>();
+  const [sdkReady, setSdkReady] = useState<boolean>(false);
   const orderDetails = useSelector((state: RootState) => {
     return state.orderDetails;
   });
 
   const { order, loading, error } = orderDetails;
-  console.log("id", orderId);
+
+  const orderPay = useSelector((state: RootState) => {
+    return state.orderPay;
+  });
+
+  const { loading: loadingPay, success: successPay } = orderPay;
 
   useEffect(() => {
-    dispatch(getOrderDetails(orderId));
-  }, []);
+    const addPayPalScript = async () => {
+      const { data: clientId } = await axios.get("/api/config/paypal");
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+      script.async = true;
+      script.onload = () => {
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
+    };
 
-      // useEffect(() => {
-      //   if (!order || order._id !== orderId) {
-      //     dispatch(getOrderDetails(orderId));
-      //   }
-      // }, [order, orderId]); 
+    if (!order || successPay) {
+      dispatch({ type: ActionType.ORDER_PAY_RESET });
+      dispatch(getOrderDetails(orderId));
+    } else if (!order.isPaid) {
+      if (!window.paypal) {
+        addPayPalScript();
+      } else {
+        setSdkReady(true);
+      }
+    }
+  }, [dispatch, orderId, successPay, order]);
 
   if (!loading) {
     // calculate prices
@@ -61,6 +89,10 @@ const OrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
       )
     );
   }
+
+  const successPaymentHandler = (paymentResult: any) => {
+    dispatch(payOrder(orderId, paymentResult));
+  };
 
   return loading ? (
     <Loading />
@@ -168,6 +200,19 @@ const OrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
                   <Col>£{order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <Loading />}
+                  {!sdkReady ? (
+                    <Loading />
+                  ) : (
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHandler}
+                    />
+                  )}
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>

@@ -11,7 +11,7 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import Message from "../components/Message";
+
 import { addToCart, removeFromCart } from "../context/cartContext";
 
 import { RootState } from "../reduxStore";

@@ -16,8 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router";
 import { RootState } from "../reduxStore";
 import { listProductDetails } from "../context/productContext";
-import { ActionType } from "../action-types/actionTypes";
-import axios from "axios";
+
 
 interface productPageProps {
   match?: any;

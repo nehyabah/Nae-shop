@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Form, Button, Row, Col, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Message from "../components/Message";
 import Loading from "../components/Loading";
 
 import {
@@ -10,6 +9,7 @@ import {
   updateUserProfileDetails,
 } from "../context/userContext";
 import { RootState } from "../reduxStore";
+import { myOrders } from "../context/orderContext";
 
 interface Props {
   location?: any;
@@ -36,14 +36,17 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
   const userLogin = useSelector((state: RootState) => {
     return state.userLogin;
   });
+  const { userInfo } = userLogin;
 
-    const { userInfo } = userLogin;
-    
   const userUpdateProfile = useSelector((state: RootState) => {
     return state.userUpdateProfile;
   });
-
   const { success } = userUpdateProfile;
+
+  const myOrdersList = useSelector((state: RootState) => {
+    return state.myOrdersList;
+  });
+  const { loading: loadingOrders, error: errorOrders, orders } = myOrdersList;
 
   useEffect(() => {
     if (!userInfo) {
@@ -51,6 +54,7 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
     } else {
       if (!user.name) {
         dispatch(getUserDetails("profile"));
+        dispatch(myOrdersList());
       } else {
         setName(user.name);
         setEmail(user.email);
@@ -125,6 +129,40 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
 
       <Col md={9}>
         <h2>My Orders</h2>
+        {loadingOrders ? (
+          <Loading />
+        ) : errorOrders ? (
+          <h5 style={{ color: "red" }}>{errorOrders}</h5>
+        ) : (
+          <Table striped bordered hover responsive className="table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th></th>
+              </tr>
+                </thead>
+                <tbody>
+                  {orders.map((orders: any) => (
+                    <tr key={orders._id}>
+                    <td>{ orders._id}</td>
+                    <td>{ orders.createdAt.substring(0,10)}</td>
+                    <td>{ orders.totalPrice}</td>
+                    <td>{orders.isPaid ? orders.paidAt.substring(0, 10) : (
+                      <i className='fas fa-times' style={{color:'red'}}></i>
+                    )}</td>
+                    <td>{orders.isDelivered ? orders.deliveredAt.substring(0, 10) : (
+                      <i className='fas fa-times' style={{color:'red'}}></i>
+                    )}</td>
+
+                    </tr>
+                  ))}
+                </tbody>
+          </Table>
+        )}
       </Col>
     </Row>
   );
