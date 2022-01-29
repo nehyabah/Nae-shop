@@ -72,7 +72,7 @@ export const createOrder =
   
 
     export const getOrderDetails =
-      (id: string) =>
+      (id: string | undefined) =>
       async (dispatch: Dispatch, getState: () => RootState) => {
         try {
           dispatch({

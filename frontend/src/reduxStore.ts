@@ -12,7 +12,10 @@ import {
   userDetailsReducer,
   userUpdateProfileReducer,
 } from "./Reducers/userReducers";
-import { orderCreateReducer, orderDetailsReducer } from "./Reducers/orderReducers";
+import {
+  orderCreateReducer,
+  orderDetailsReducer,
+} from "./Reducers/orderReducers";
 
 const rootReducer = combineReducers({
   productList: productListReducer,

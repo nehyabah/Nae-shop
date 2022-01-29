@@ -20,25 +20,47 @@ interface orderItemProps {
   name?: string;
   image?: string;
   price?: number;
-    qty?: number;
-    address?: string;
+  qty?: number;
+  address?: string;
 
   productId?: string;
 }
 
-const OrderPage: React.FC<cartItemProps> = ({ price, qty}) => {
+const OrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
   const dispatch = useDispatch();
   const push = useNavigate();
 
-  const { id } = useParams<{ id?: string | undefined }>();
+  const { id: orderId } = useParams<{ id?: string }>();
   const orderDetails = useSelector((state: RootState) => {
     return state.orderDetails;
   });
-    const { order, loading, error } = orderDetails;
-    
+
+  const { order, loading, error } = orderDetails;
+  console.log("id", orderId);
+
   useEffect(() => {
-    dispatch(getOrderDetails(orderID));
+    dispatch(getOrderDetails(orderId));
   }, []);
+
+      // useEffect(() => {
+      //   if (!order || order._id !== orderId) {
+      //     dispatch(getOrderDetails(orderId));
+      //   }
+      // }, [order, orderId]); 
+
+  if (!loading) {
+    // calculate prices
+    const addDecimal = (num: number) => {
+      return (Math.round(num * 100) / 100).toFixed(2);
+    };
+
+    order.itemsPrice = addDecimal(
+      order.orderItems.reduce(
+        (acc: any, item: any) => acc + item.price * item.qty,
+        0
+      )
+    );
+  }
 
   return loading ? (
     <Loading />
@@ -52,17 +74,36 @@ const OrderPage: React.FC<cartItemProps> = ({ price, qty}) => {
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>Shipping</h2>
+              <strong>Name: </strong> {order.user.name}
+              <br />
+              <a href={`mailto:${order.user.email}`}>
+                Email: {order.user.email}
+              </a>
               <p>
                 <strong>Address:</strong>
-                {order.shippingAddress.address} {order.shippingAddress.city},{" "}
-                {order.shippingAddress.postalCode},{" "}
+                {order.shippingAddress.address} {order.shippingAddress.city},
+                {order.shippingAddress.postalCode},
                 {order.shippingAddress.country}
               </p>
+              {order.isDelivered ? (
+                <h5 style={{ color: "green" }}>
+                  Delivered on {order.deliveredAt}
+                </h5>
+              ) : (
+                <h5 style={{ color: "red" }}>Not Delivered</h5>
+              )}
             </ListGroup.Item>
             <ListGroup.Item>
               <h2>Payment Method</h2>
-              <strong>Method: </strong>
-              {order.paymentMethod}
+              <p>
+                <strong>Method: </strong>
+                {order.paymentMethod}
+              </p>
+              {order.isPaid ? (
+                <h5 style={{ color: "green" }}>Paid on {order.paidAt}</h5>
+              ) : (
+                <h5 style={{ color: "red" }}>Not Paid</h5>
+              )}
             </ListGroup.Item>
             <ListGroup.Item>
               <h2>order items</h2>
@@ -83,7 +124,7 @@ const OrderPage: React.FC<cartItemProps> = ({ price, qty}) => {
                             />
                           </Col>
                           <Col>
-                            <Link to={`/product/${item.product}`}>
+                            <Link to={`/product/${item.productId}`}>
                               {item.name}
                             </Link>
                           </Col>

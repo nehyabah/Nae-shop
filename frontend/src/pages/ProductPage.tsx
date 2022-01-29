@@ -45,7 +45,7 @@ const ProductPage: React.FC<productPageProps> = ({
   numReviews,
   countInStock,
 }) => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id?: string }>();
   const [qty, setQty] = useState(1);
   const push = useNavigate();
   const dispatch = useDispatch();
