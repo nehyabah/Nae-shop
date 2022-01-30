@@ -149,7 +149,7 @@ export const payOrder =
   };
 
 export const myOrders =
-  (orderId: string | undefined, paymentResult: paymentResultProps) =>
+  () =>
   async (dispatch: Dispatch, getState: () => RootState) => {
     try {
       dispatch({

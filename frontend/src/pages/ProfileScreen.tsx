@@ -44,9 +44,14 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
   const { success } = userUpdateProfile;
 
   const myOrdersList = useSelector((state: RootState) => {
-    return state.myOrdersList;
+    return state.myOrders;
   });
-  const { loading: loadingOrders, error: errorOrders, orders } = myOrdersList;
+  const {
+    error: errorOrders,
+    loading: loadingOrders,
+    orders,
+  }: { loading: boolean; error: boolean; orders: any } = myOrdersList;
+  console.log(orders);
 
   useEffect(() => {
     if (!userInfo) {
@@ -54,7 +59,7 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
     } else {
       if (!user.name) {
         dispatch(getUserDetails("profile"));
-        dispatch(myOrdersList());
+        dispatch(myOrders());
       } else {
         setName(user.name);
         setEmail(user.email);
@@ -144,23 +149,30 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
                 <th>DELIVERED</th>
                 <th></th>
               </tr>
-                </thead>
-                <tbody>
-                  {orders.map((orders: any) => (
-                    <tr key={orders._id}>
-                    <td>{ orders._id}</td>
-                    <td>{ orders.createdAt.substring(0,10)}</td>
-                    <td>{ orders.totalPrice}</td>
-                    <td>{orders.isPaid ? orders.paidAt.substring(0, 10) : (
-                      <i className='fas fa-times' style={{color:'red'}}></i>
-                    )}</td>
-                    <td>{orders.isDelivered ? orders.deliveredAt.substring(0, 10) : (
-                      <i className='fas fa-times' style={{color:'red'}}></i>
-                    )}</td>
-
-                    </tr>
-                  ))}
-                </tbody>
+            </thead>
+            <tbody>
+              {orders.map((orders: any) => (
+                <tr key={orders._id}>
+                  <td>{orders._id}</td>
+                  <td>{orders.createdAt.substring(0, 10)}</td>
+                  <td>{orders.totalPrice}</td>
+                  <td>
+                    {orders.isPaid ? (
+                      orders.paidAt.substring(0, 10)
+                    ) : (
+                      <i className="fas fa-times" style={{ color: "red" }}></i>
+                    )}
+                  </td>
+                  <td>
+                    {orders.isDelivered ? (
+                      orders.deliveredAt.substring(0, 10)
+                    ) : (
+                      <i className="fas fa-times" style={{ color: "red" }}></i>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </Table>
         )}
       </Col>
