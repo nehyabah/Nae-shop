@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../components/Loading";
+import { LinkContainer } from "react-router-bootstrap";
 
 import {
   getUserDetails,
@@ -169,6 +170,11 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
                     ) : (
                       <i className="fas fa-times" style={{ color: "red" }}></i>
                     )}
+                  </td>
+                  <td>
+                    <LinkContainer to={`/order/${orders._id}`}>
+                      <Button className='btn-sm' variant='light'>Details</Button>
+                    </LinkContainer>
                   </td>
                 </tr>
               ))}

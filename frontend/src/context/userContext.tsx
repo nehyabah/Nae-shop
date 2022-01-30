@@ -39,6 +39,8 @@ export const login =
 export const logout = () => (dispatch: Dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: ActionType.USER_LOGOUT });
+  dispatch({ type: ActionType.USER_DETAILS_RESET});
+  dispatch({ type: ActionType.MY_ORDER_LIST_RESET });
 };
 
 

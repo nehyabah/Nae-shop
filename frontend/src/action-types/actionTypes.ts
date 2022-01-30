@@ -24,6 +24,7 @@ export enum ActionType {
   USER_DETAILS_REQUEST = "USER_DETAILS_REQUEST",
   USER_DETAILS_SUCCESS = "USER_DETAILS_SUCCESS",
   USER_DETAILS_FAIL = "USER_DETAILS_FAIL",
+  USER_DETAILS_RESET = "USER_DETAILS_RESET",
 
   USER_UPDATE_REQUEST = "USER_UPDATE_REQUEST",
   USER_UPDATE_SUCCESS = "USER_UPDATE_SUCCESS",
@@ -38,17 +39,15 @@ export enum ActionType {
   ORDER_DETAILS_SUCCESS = " ORDER_DETAILS_SUCCESS",
   ORDER_DETAILS_FAIL = " ORDER_DETAILS_FAIL",
 
-
   ORDER_PAY_REQUEST = " ORDER_PAY_REQUEST",
   ORDER_PAY_SUCCESS = " ORDER_PAY_SUCCESS",
   ORDER_PAY_FAIL = " ORDER_PAY_FAIL",
   ORDER_PAY_RESET = " ORDER_PAY_RESET",
 
-
   MY_ORDER_LIST_REQUEST = " MY_ORDER_LIST_REQUEST",
   MY_ORDER_LIST_SUCCESS = " MY_ORDER_LIST_SUCCESS",
   MY_ORDER_LIST_FAIL = " MY_ORDER_LIST_FAIL",
- 
+  MY_ORDER_LIST_RESET = " MY_ORDER_LIST_RESET",
 }
 
 // props (types of action)
@@ -157,6 +156,10 @@ interface userDetailsFail {
   type: ActionType.USER_DETAILS_FAIL;
   payload: string;
 }
+interface userDetailsReset {
+  type: ActionType.USER_DETAILS_RESET;
+  payload: string;
+}
 interface userUpdateRequest {
   type: ActionType.USER_UPDATE_REQUEST;
   payload: string;
@@ -225,7 +228,10 @@ interface myOrdersFail {
   type: ActionType.MY_ORDER_LIST_FAIL;
   payload: string;
 }
-
+interface myOrdersReset {
+  type: ActionType.MY_ORDER_LIST_RESET;
+  payload: string;
+}
 
 export type ActionProps =
   | productRequestAction
@@ -246,6 +252,7 @@ export type ActionProps =
   | userDetailsRequest
   | userDetailsSuccess
   | userDetailsFail
+  | userDetailsReset
   | userUpdateRequest
   | userUpdateSuccess
   | userUpdateFail
@@ -264,4 +271,5 @@ export type ActionProps =
   | orderPayReset
   | myOrdersRequest
   | myOrdersSuccess
-  | myOrdersFail;
+  | myOrdersFail
+  | myOrdersReset;
