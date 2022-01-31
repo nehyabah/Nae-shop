@@ -63,3 +63,17 @@ export const userUpdateProfileReducer = (state = {}, action: ActionProps) => {
       return state;
   }
 };
+export const userListReducer = (state = {users: []}, action: ActionProps) => {
+  switch (action.type) {
+    case ActionType.USER_LIST_REQUEST:
+      return { loading: true };
+    case ActionType.USER_LIST_SUCCESS:
+      return { loading: false, users: action.payload };
+    case ActionType.USER_LIST_FAIL:
+      return { loading: false, error: action.payload };
+   
+
+    default:
+      return state;
+  }
+};

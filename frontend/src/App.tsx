@@ -1,6 +1,5 @@
-
 import Header from "./components/Header";
-import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import { Container } from "react-bootstrap";
 import HomePage from "./pages/HomePage";
@@ -13,7 +12,7 @@ import ShippingPage from "./pages/ShippingPage";
 import PaymentPage from "./pages/PaymentPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
-
+import UserListPage from "./pages/UserListPage";
 
 const App = () => {
   return (
@@ -32,6 +31,7 @@ const App = () => {
 
             <Route path="/products/:id" element={<ProductPage />} />
             <Route path="/cart/:id" element={<CartPage />} />
+            <Route path="/admin/userlist" element={<UserListPage />} />
             <Route path="/" element={<HomePage />} />
           </Routes>
         </Container>
