@@ -52,6 +52,7 @@ export enum ActionType {
   USER_LIST_REQUEST = "USER_LIST_REQUEST",
   USER_LIST_SUCCESS = "USER_LIST_SUCCESS",
   USER_LIST_FAIL = "USER_LIST_FAIL",
+  USER_LIST_RESET = "USER_LIST_RESET",
 }
 
 // props (types of action)
@@ -248,6 +249,10 @@ interface userListFail {
   type: ActionType.USER_LIST_FAIL;
   payload: string;
 }
+interface userListReset {
+  type: ActionType.USER_LIST_RESET;
+  payload: string;
+}
 
 
 
@@ -293,4 +298,5 @@ export type ActionProps =
   | myOrdersReset
   | userListSuccess
   | userListRequest
-  | userListFail;
+  | userListFail
+  | userListReset;

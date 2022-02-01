@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,15 +13,28 @@ interface Props {
 }
 
 const UserListPage: React.FC<Props> = () => {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
+      const push = useNavigate();
   const userList = useSelector((state: RootState) => {
     return state.userList;
   });
-  const { loading, error, users } = userList;
+    const { loading, error, users } = userList;
+    
 
-  useEffect(() => {
+  const userLogin = useSelector((state: RootState) => {
+    return state.userLogin;
+  });
+  const { userInfo} = userLogin;
+
+    useEffect(() => {
+        if (userInfo && userInfo.isAdmin) {
+          dispatch(listUsers())
+        } else {
+           push('/login')
+      }
+
     dispatch(listUsers());
-  }, [dispatch]);
+  }, [dispatch, push, userInfo]);
     
     const deleteHandler = (id: string) => {
         console.log('delete');

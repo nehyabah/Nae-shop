@@ -41,6 +41,7 @@ export const logout = () => (dispatch: Dispatch) => {
   dispatch({ type: ActionType.USER_LOGOUT });
   dispatch({ type: ActionType.USER_DETAILS_RESET});
   dispatch({ type: ActionType.MY_ORDER_LIST_RESET });
+  dispatch({ type: ActionType.USER_LIST_RESET });
 };
 
 

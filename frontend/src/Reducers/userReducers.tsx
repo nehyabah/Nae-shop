@@ -53,7 +53,7 @@ export const userUpdateProfileReducer = (state = {}, action: ActionProps) => {
     case ActionType.USER_UPDATE_REQUEST:
       return { loading: true };
     case ActionType.USER_UPDATE_SUCCESS:
-      return { loading: false, success: true, user: action.payload };
+      return { loading: false, success: true, userInfo: action.payload };
     case ActionType.USER_UPDATE_FAIL:
       return { loading: false, error: action.payload };
     case ActionType.USER_UPDATE_RESET:
@@ -63,7 +63,7 @@ export const userUpdateProfileReducer = (state = {}, action: ActionProps) => {
       return state;
   }
 };
-export const userListReducer = (state = {users: []}, action: ActionProps) => {
+export const userListReducer = (state = { users: [] }, action: ActionProps) => {
   switch (action.type) {
     case ActionType.USER_LIST_REQUEST:
       return { loading: true };
@@ -71,7 +71,8 @@ export const userListReducer = (state = {users: []}, action: ActionProps) => {
       return { loading: false, users: action.payload };
     case ActionType.USER_LIST_FAIL:
       return { loading: false, error: action.payload };
-   
+    case ActionType.USER_LIST_RESET:
+      return { users: [] };
 
     default:
       return state;

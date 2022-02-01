@@ -15,6 +15,8 @@ const Header: React.FC = () => {
     return state.userLogin;
   });
   const { userInfo } = userLogin;
+  console.log('userInfo', userInfo);
+  
 
   const logoutHandler = () => {
     dispatch(logout());
