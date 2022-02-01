@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { RootState } from "../reduxStore";
-import { ActionType, ActionProps } from "../action-types/actionTypes";
+
 import { logout } from "../context/userContext";
 
 // interface{

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loading from "../components/Loading";
-import { listUsers } from "../context/userContext";
+import { listUsers, deleteUser } from "../context/userContext";
 import { RootState } from "../reduxStore";
 
 interface Props {
@@ -24,7 +24,13 @@ const UserListPage: React.FC<Props> = () => {
   const userLogin = useSelector((state: RootState) => {
     return state.userLogin;
   });
-  const { userInfo} = userLogin;
+    const { userInfo } = userLogin;
+    
+
+  const userDelete = useSelector((state: RootState) => {
+    return state.userDelete;
+  });
+  const {success: successDelete} = userDelete;
 
     useEffect(() => {
         if (userInfo && userInfo.isAdmin) {
@@ -34,10 +40,13 @@ const UserListPage: React.FC<Props> = () => {
       }
 
     dispatch(listUsers());
-  }, [dispatch, push, userInfo]);
+  }, [dispatch, push, userInfo, successDelete]);
     
     const deleteHandler = (id: string) => {
-        console.log('delete');
+        if (window.confirm('Are you sure')) {
+           dispatch(deleteUser(id)); 
+        }
+        
         
     }
 
@@ -76,7 +85,7 @@ const UserListPage: React.FC<Props> = () => {
                   )}
                 </td>
                 <td>
-                  <LinkContainer to={`/user/${user._id}/edit`}>
+                  <LinkContainer to={`/admin/user/${user._id}/edit`}>
                     <Button variant="light" className="btn-sm">
                       <i className="fas fa-edit"></i>
                     </Button>

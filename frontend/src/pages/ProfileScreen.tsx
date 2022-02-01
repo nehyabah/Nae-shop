@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../components/Loading";
@@ -24,7 +24,7 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [message, setMessage] = useState<boolean | string | null>(null);
 
-  const { search } = useLocation();
+ 
   const push = useNavigate();
 
   const dispatch = useDispatch();

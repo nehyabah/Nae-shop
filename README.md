@@ -14,7 +14,7 @@ Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 
-PROJECT_IS_60%_DONE
+PROJECT_IS_75%_DONE
 
  This is a fullstack E-commerce store. The frontend uses the React.js framework and is coded in TypeScript. The frontend additionally makes use of the Bootswatch for styling and the Ion-Icons CDN for the icons in the NavBar, product view pages, and shopping cart. Redux is also used to keep state in the front end.
 
@@ -29,11 +29,6 @@ Overall, this was a difficult project that challenged me to learn and master dif
 
 ### T0_BE_DONE
 
-* CHECK OUT PROCESS AND ADDING PAYPAL PAYMENTS
-
-* SHOW ORDERS ON CUSTOMER PROFILE
-
-* CREATE ADMIN SECTION
 
 * UPDATE, DELETE USER AS ADMIN
 

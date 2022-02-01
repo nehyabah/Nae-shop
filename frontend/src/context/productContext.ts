@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Dispatch } from "redux";
 
-import { ActionType, ActionProps } from "../action-types/actionTypes";
+import { ActionType } from "../action-types/actionTypes";
 // import {ActionType} from '../action-types/index'
 
 export const listProducts = () => async (dispatch: Dispatch) => {
@@ -14,13 +14,12 @@ export const listProducts = () => async (dispatch: Dispatch) => {
       type: ActionType.PRODUCT_LIST_SUCCESS,
       payload: data,
     });
-  } catch (error) {
+  } catch (error: any) {
     dispatch({
       type: ActionType.PRODUCT_LIST_FAIL,
-      payload: error,
-      //   error.response && error.response.data.message
-      //     ? error.response.data.message
-      //     : error.message,
+      payload: error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
   }
 };

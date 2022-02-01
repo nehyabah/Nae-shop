@@ -1,14 +1,9 @@
 import axios from "axios";
 import { Dispatch } from "redux";
 import { RootState } from "../reduxStore";
-import { ActionType, ActionProps } from "../action-types/actionTypes";
+import { ActionType } from "../action-types/actionTypes";
 
-type shippingAddress = {
-  address: string;
-  city: string;
-  postcode: string;
-  country: string;
-};
+
 
 type cartItems = {
   productId: string;
@@ -149,8 +144,7 @@ export const payOrder =
   };
 
 export const myOrders =
-  () =>
-  async (dispatch: Dispatch, getState: () => RootState) => {
+  () => async (dispatch: Dispatch, getState: () => RootState) => {
     try {
       dispatch({
         type: ActionType.MY_ORDER_LIST_REQUEST,

@@ -5,7 +5,7 @@ import Product from "../components/Product";
 import Message from "../components/Message";
 import Loading from "../components/Loading";
 import { listProducts } from "../context/productContext";
-import { productListReducer } from "../Reducers/productReducers";
+
 import { RootState } from "../reduxStore";
 import { ProductType } from "../components/Product";
 
@@ -35,9 +35,9 @@ const HomePage: React.FC<HomePagePropTypes> = () => {
     <>
       <h1>Latest products</h1>
       {loading ? (
-        <Loading/>
+        <Loading />
       ) : error ? (
-        <Message variant ='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
         <Row>
           {products.map((product) => {

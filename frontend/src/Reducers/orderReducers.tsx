@@ -1,23 +1,6 @@
 import { ActionType, ActionProps } from "../action-types/actionTypes";
 
-interface orderProps {
-  loading?: boolean;
-  error?: boolean;
-  success?: boolean;
-  _id?: string;
-  name?: string;
-  email?: string;
-  token?: string;
-  password?: string;
-  
-  paymentMethod?: string;
-  itemsPrice?: number;
-  shippingPrice?: number;
-  taxPrice?: number;
-  totalPrice?: number;
-  
-  // my orders
-}
+
 
 
 export const orderCreateReducer = (

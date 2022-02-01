@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import axios from "axios";
 import { RootState } from "../reduxStore";
-import { ActionType, ActionProps } from "../action-types/actionTypes";
+import { ActionType } from "../action-types/actionTypes";
 
 export const login =
   (email: string, password: string) => async (dispatch: Dispatch) => {
@@ -39,11 +39,10 @@ export const login =
 export const logout = () => (dispatch: Dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: ActionType.USER_LOGOUT });
-  dispatch({ type: ActionType.USER_DETAILS_RESET});
+  dispatch({ type: ActionType.USER_DETAILS_RESET });
   dispatch({ type: ActionType.MY_ORDER_LIST_RESET });
   dispatch({ type: ActionType.USER_LIST_RESET });
 };
-
 
 export const register =
   (name: string, email: string, password: string) =>
@@ -160,10 +159,8 @@ export const updateUserProfileDetails =
     }
   };
 
-
 export const listUsers =
-  () =>
-  async (dispatch: Dispatch, getState: () => RootState) => {
+  () => async (dispatch: Dispatch, getState: () => RootState) => {
     try {
       dispatch({
         type: ActionType.USER_LIST_REQUEST,
@@ -174,7 +171,6 @@ export const listUsers =
       } = getState();
       const config = {
         headers: {
-          
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
@@ -187,6 +183,38 @@ export const listUsers =
     } catch (error: any) {
       dispatch({
         type: ActionType.USER_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const deleteUser =
+  (id: string | undefined) =>
+  async (dispatch: Dispatch, getState: () => RootState) => {
+    try {
+      dispatch({
+        type: ActionType.USER_DELETE_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      await axios.delete(`/api/users/${id}`, config);
+      dispatch({
+        type: ActionType.USER_DELETE_SUCCESS,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: ActionType.USER_DELETE_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

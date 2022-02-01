@@ -53,6 +53,11 @@ export enum ActionType {
   USER_LIST_SUCCESS = "USER_LIST_SUCCESS",
   USER_LIST_FAIL = "USER_LIST_FAIL",
   USER_LIST_RESET = "USER_LIST_RESET",
+
+  USER_DELETE_REQUEST = "USER_DELETE_REQUEST",
+  USER_DELETE_SUCCESS = "USER_DELETE_SUCCESS",
+  USER_DELETE_FAIL = "USER_DELETE_FAIL",
+
 }
 
 // props (types of action)
@@ -253,6 +258,18 @@ interface userListReset {
   type: ActionType.USER_LIST_RESET;
   payload: string;
 }
+interface userDeleteRequest {
+  type: ActionType.USER_DELETE_REQUEST;
+  payload: string;
+}
+interface userDeleteSuccess {
+  type: ActionType.USER_DELETE_SUCCESS;
+  payload: string;
+}
+interface userDeleteFail {
+  type: ActionType.USER_DELETE_FAIL;
+  payload: string;
+}
 
 
 
@@ -299,4 +316,7 @@ export type ActionProps =
   | userListSuccess
   | userListRequest
   | userListFail
-  | userListReset;
+  | userListReset
+  | userDeleteRequest
+  | userDeleteSuccess
+  | userDeleteFail;

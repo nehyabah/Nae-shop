@@ -63,6 +63,7 @@ export const userUpdateProfileReducer = (state = {}, action: ActionProps) => {
       return state;
   }
 };
+
 export const userListReducer = (state = { users: [] }, action: ActionProps) => {
   switch (action.type) {
     case ActionType.USER_LIST_REQUEST:
@@ -73,6 +74,20 @@ export const userListReducer = (state = { users: [] }, action: ActionProps) => {
       return { loading: false, error: action.payload };
     case ActionType.USER_LIST_RESET:
       return { users: [] };
+
+    default:
+      return state;
+  }
+};
+
+export const userDeleteReducer = (state = {}, action: ActionProps) => {
+  switch (action.type) {
+    case ActionType.USER_DELETE_REQUEST:
+      return { loading: true };
+    case ActionType.USER_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case ActionType.USER_DELETE_FAIL:
+      return { loading: false, error: action.payload };
 
     default:
       return state;
