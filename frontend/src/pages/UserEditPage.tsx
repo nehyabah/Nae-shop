@@ -9,7 +9,6 @@ import { getUserDetails, updateUser } from "../context/userContext";
 import { RootState } from "../reduxStore";
 import { useNavigate, useParams } from "react-router";
 import { ActionType } from "../action-types/actionTypes";
-import { idText } from "typescript";
 
 interface Props {
   location?: any;
@@ -46,17 +45,17 @@ const UserEditPage: React.FC<Props> = ({ location }) => {
       dispatch({ type: ActionType.USER_UPDATEAD_RESET });
       push("/admin/userlist");
     } else {
-        if (user) {
-          if (!user.name || user._id !== id) {
-            dispatch(getUserDetails(id));
-          } else {
-            setName(user.name);
-            setEmail(user.email);
-            setisAdmin(user.isAdmin);
-          }
-      } 
+      
+        if (!user.name || user._id !== id) {
+          dispatch(getUserDetails(id));
+        } else {
+          setName(user.name);
+          setEmail(user.email);
+          setisAdmin(user.isAdmin);
+        }
+      }
     }
-  }, [push, dispatch, id, successUpdate]);
+  , [push, dispatch, id, successUpdate]);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();

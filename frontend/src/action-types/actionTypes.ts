@@ -62,6 +62,20 @@ export enum ActionType {
   USER_UPDATEAD_SUCCESS = "USER_UPDATEAD_SUCCESS",
   USER_UPDATEAD_FAIL = "USER_UPDATEAD_FAIL",
   USER_UPDATEAD_RESET = "USER_UPDATEAD_RESET",
+
+  PRODUCT_DELETE_REQUEST = "PRODUCT_DELETE_REQUEST",
+  PRODUCT_DELETE_SUCCESS = "PRODUCT_DELETE_SUCCESS",
+  PRODUCT_DELETE_FAIL = "PRODUCT_DELETE_FAIL",
+
+  PRODUCT_CREATE_REQUEST = "PRODUCT_CREATE_REQUEST",
+  PRODUCT_CREATE_SUCCESS = "PRODUCT_CREATE_SUCCESS",
+  PRODUCT_CREATE_FAIL = "PRODUCT_CREATE_FAIL",
+  PRODUCT_CREATE_RESET = "PRODUCT_CREATE_RESET",
+
+  PRODUCT_UPDATE_REQUEST = "PRODUCT_UPDATE_REQUEST",
+  PRODUCT_UPDATE_SUCCESS = "PRODUCT_UPDATE_SUCCESS",
+  PRODUCT_UPDATE_FAIL = "PRODUCT_UPDATE_FAIL",
+  PRODUCT_UPDATE_RESET = "PRODUCT_UPDATE_RESET",
 }
 
 // props (types of action)
@@ -290,9 +304,51 @@ interface userUpdateAdReset {
   type: ActionType.USER_UPDATEAD_RESET;
   payload: string;
 }
+interface productDeleteRequest {
+  type: ActionType.PRODUCT_DELETE_REQUEST;
+  payload: string;
+}
+interface productDeleteSuccess {
+  type: ActionType.PRODUCT_DELETE_SUCCESS;
+  payload: string;
+}
+interface productDeleteFail {
+  type: ActionType.PRODUCT_DELETE_FAIL;
+  payload: string;
+}
+interface productCreateRequest {
+  type: ActionType.PRODUCT_CREATE_REQUEST;
+  payload: string;
+}
+interface productCreateSuccess {
+  type: ActionType.PRODUCT_CREATE_SUCCESS;
+  payload: string;
+}
+interface productCreateFail {
+  type: ActionType.PRODUCT_CREATE_FAIL;
+  payload: string;
+}
+interface productCreateReset {
+  type: ActionType.PRODUCT_CREATE_RESET;
+  payload: string;
+}
 
-
-
+interface productUpdateRequest {
+  type: ActionType.PRODUCT_UPDATE_REQUEST;
+  payload: string;
+}
+interface productUpdateSuccess {
+  type: ActionType.PRODUCT_UPDATE_SUCCESS;
+  payload: string;
+}
+interface productUpdateFail {
+  type: ActionType.PRODUCT_UPDATE_FAIL;
+  payload: string;
+}
+interface productUpdateReset {
+  type: ActionType.PRODUCT_UPDATE_RESET;
+  payload: string;
+}
 
 export type ActionProps =
   | productRequestAction
@@ -344,4 +400,15 @@ export type ActionProps =
   | userUpdateAdRequest
   | userUpdateAdSuccess
   | userUpdateAdFail
-  | userUpdateAdReset;
+  | userUpdateAdReset
+  | productDeleteRequest
+  | productDeleteSuccess
+  | productDeleteFail
+  | productCreateRequest
+  | productCreateSuccess
+  | productCreateFail
+  | productCreateReset
+  | productUpdateRequest
+  | productUpdateSuccess
+  | productUpdateFail
+  | productUpdateReset;
