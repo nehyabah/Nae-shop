@@ -31,7 +31,7 @@ const PlaceOrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
     if (success) {
       push(`/order/${order._id}`);
     }
-  }, [success, push, order._id]);
+  }, [success, push, order]);
   const placeOrderHandler = () => {
     dispatch(
       createOrder({

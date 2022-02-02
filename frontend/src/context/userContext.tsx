@@ -221,4 +221,41 @@ export const deleteUser =
             : error.message,
       });
     }
+    };
+  
+
+export const updateUser =
+  (user: any) =>
+  async (dispatch: Dispatch, getState: () => RootState) => {
+    try {
+      dispatch({
+        type: ActionType.USER_UPDATEAD_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } =await axios.put(`/api/users/${user._id}`, user, config);
+      dispatch({
+        type: ActionType.USER_UPDATEAD_SUCCESS,
+      });
+      dispatch({
+        type: ActionType.USER_DETAILS_SUCCESS, payload:data
+      });
+    } catch (error: any) {
+      dispatch({
+        type: ActionType.USER_UPDATEAD_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
   };

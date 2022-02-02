@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-
+import Message from "../components/Message";
 import Loading from "../components/Loading";
 import FormContainer from "../components/FormContainer";
-import { getUserDetails } from "../context/userContext";
+import { getUserDetails, updateUser } from "../context/userContext";
 import { RootState } from "../reduxStore";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { ActionType } from "../action-types/actionTypes";
+import { idText } from "typescript";
 
 interface Props {
   location?: any;
@@ -16,39 +18,60 @@ interface Props {
 
 const UserEditPage: React.FC<Props> = ({ location }) => {
   //Use Params
-  const { id } = useParams<{ id?: string | undefined }>();
+  const { id } = useParams<{ id?: any }>();
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [isAdmin, setisAdmin] = useState<boolean>(false);
 
   const dispatch = useDispatch();
+  const push = useNavigate();
 
   const userDetails = useSelector((state: RootState) => {
     return state.userDetails;
   });
-
   const { loading, error, user } = userDetails;
 
+  const userUpdate = useSelector((state: RootState) => {
+    return state.userUpdate;
+  });
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = userUpdate;
+
   useEffect(() => {
-    if (!user.name || user._id !== id) {
-      dispatch(getUserDetails(user));
+    if (successUpdate) {
+      dispatch({ type: ActionType.USER_UPDATEAD_RESET });
+      push("/admin/userlist");
     } else {
-      setName(user.name);
-      setEmail(user.email);
-      setisAdmin(user.isAdmin);
+        if (user) {
+          if (!user.name || user._id !== id) {
+            dispatch(getUserDetails(id));
+          } else {
+            setName(user.name);
+            setEmail(user.email);
+            setisAdmin(user.isAdmin);
+          }
+      } 
     }
-  }, [dispatch, id]);
+  }, [push, dispatch, id, successUpdate]);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    dispatch(updateUser({ _id: userDetails, name, email, isAdmin }));
   };
 
   return (
     <>
-      <Link to="/admin/userlist" className="btn btn-light my-3"></Link>
+      <Link to="/admin/userlist" className="btn btn-light my-3">
+        Go back
+      </Link>
       <FormContainer>
         <h1>Edit User</h1>
+        {loadingUpdate && <Loading />}
+        {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
           <Loading />
         ) : error ? (

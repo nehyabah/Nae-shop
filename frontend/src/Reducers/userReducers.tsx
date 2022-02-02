@@ -2,6 +2,27 @@ import { ActionType, ActionProps } from "../action-types/actionTypes";
 
 // case is same as if
 
+interface userListAdminProps {
+  loading?: boolean;
+  error?: boolean;
+  success?: boolean;
+  users?: {
+    _id?: string;
+    name?: string;
+    email?: string;
+    isAdmin?: string;
+    token?: string;
+  }[];
+  user?: {
+    _id?: string;
+    name?: string;
+    email?: string;
+    isAdmin?: string;
+    token?: string;
+  };
+}
+
+
 export const userLoginReducer = (state = {}, action: ActionProps) => {
   switch (action.type) {
     case ActionType.USER_LOGIN_REQUEST:
@@ -88,6 +109,27 @@ export const userDeleteReducer = (state = {}, action: ActionProps) => {
       return { loading: false, success: true };
     case ActionType.USER_DELETE_FAIL:
       return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const userUpdateReducer = (
+  state = { user: {} },
+  action: ActionProps
+) => {
+  switch (action.type) {
+    case ActionType.USER_UPDATEAD_REQUEST:
+      return { loading: true };
+    case ActionType.USER_UPDATEAD_SUCCESS:
+      return { loading: false, success: true };
+    case ActionType.USER_UPDATEAD_FAIL:
+      return { loading: false, error: action.payload };
+    case ActionType.USER_UPDATEAD_RESET:
+      return {
+        user: {},
+      };
 
     default:
       return state;
