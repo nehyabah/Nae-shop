@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema(
       required: true,
     },
     isAdmin: {
-      type: String,
+      type: Boolean,
       required: true,
       default: false,
     },
@@ -26,7 +26,6 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-
 
 //pasword encryption
 userSchema.methods.matchPassword = async function (enteredPassword) {

@@ -38,6 +38,9 @@ export const login =
   };
 export const logout = () => (dispatch: Dispatch) => {
   localStorage.removeItem("userInfo");
+  localStorage.removeItem("cartItems");
+  localStorage.removeItem("shippingAddress");
+  localStorage.removeItem("token");
   dispatch({ type: ActionType.USER_LOGOUT });
   dispatch({ type: ActionType.USER_DETAILS_RESET });
   dispatch({ type: ActionType.MY_ORDER_LIST_RESET });
@@ -85,19 +88,21 @@ export const register =
   };
 
 export const getUserDetails =
-  (id: string) => async (dispatch: Dispatch, getState: () => RootState) => {
+  (id: string | undefined) =>
+  async (dispatch: Dispatch, getState: () => RootState) => {
     try {
       dispatch({
         type: ActionType.USER_DETAILS_REQUEST,
       });
 
+      const userToken = localStorage.getItem("token");
       const {
         userLogin: { userInfo },
       } = getState();
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${userInfo.token}`,
+          Authorization: `Bearer ${userToken}`,
         },
       };
 
@@ -106,6 +111,7 @@ export const getUserDetails =
         type: ActionType.USER_DETAILS_SUCCESS,
         payload: data,
       });
+      console.log("data", data);
     } catch (error: any) {
       dispatch({
         type: ActionType.USER_DETAILS_FAIL,
@@ -132,14 +138,14 @@ export const updateUserProfileDetails =
       dispatch({
         type: ActionType.USER_UPDATE_REQUEST,
       });
-
+      const userToken = localStorage.getItem("token");
       const {
         userLogin: { userInfo },
       } = getState();
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${userInfo.token}`,
+          Authorization: `Bearer ${userToken}`,
         },
       };
 
@@ -221,12 +227,10 @@ export const deleteUser =
             : error.message,
       });
     }
-    };
-  
+  };
 
 export const updateUser =
-  (user: any) =>
-  async (dispatch: Dispatch, getState: () => RootState) => {
+  (user: any) => async (dispatch: Dispatch, getState: () => RootState) => {
     try {
       dispatch({
         type: ActionType.USER_UPDATEAD_REQUEST,
@@ -237,17 +241,18 @@ export const updateUser =
       } = getState();
       const config = {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
 
-      const { data } =await axios.put(`/api/users/${user._id}`, user, config);
+      const { data } = await axios.put(`/api/users/${user._id}`, user, config);
       dispatch({
         type: ActionType.USER_UPDATEAD_SUCCESS,
       });
       dispatch({
-        type: ActionType.USER_DETAILS_SUCCESS, payload:data
+        type: ActionType.USER_DETAILS_SUCCESS,
+        payload: data,
       });
     } catch (error: any) {
       dispatch({

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
@@ -27,6 +28,7 @@ const ProductEditPage: React.FC<Props> = ({ location }) => {
   const [brand, setBrand] = useState<string>("");
   const [countInStock, setCountInStock] = useState<number>(0);
   const [description, setDescription] = useState<string>("");
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const push = useNavigate();
@@ -50,36 +52,60 @@ const ProductEditPage: React.FC<Props> = ({ location }) => {
       dispatch({ type: ActionType.PRODUCT_UPDATE_RESET });
       push("/admin/productlist");
     } else {
-      if (!product.name || product._id !== id) {
-        dispatch(listProductDetails(id));
-      } else {
-        setName(product.name);
-        setPrice(product.email);
-        setImage(product.image);
-        setCategory(product.category);
-        setBrand(product.brand);
-        setCountInStock(product.countInStock);
-        setDescription(product.description);
+      if (product) {
+        if (!product.name || product._id !== id) {
+          dispatch(listProductDetails(id));
+        } else {
+          setName(product.name);
+          setPrice(product.email);
+          setImage(product.image);
+          setCategory(product.category);
+          setBrand(product.brand);
+          setCountInStock(product.countInStock);
+          setDescription(product.description);
+        }
       }
     }
   }, [dispatch, push, id, product, successUpdate]);
 
+//   const uploadFileHandler = async (e: any) => {
+//     const file = e.target.files[0];
+//     const formData = new FormData();
+//     formData.append("image", file);
+//     setUploading(true);
+
+//     try {
+//       const config = {
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//         },
+//       };
+//       const { data } = await axios.post("api/upload", formData, config);
+//       setImage(data);
+//       setUploading(false);
+//     } catch (error) {
+//       console.error(error);
+//       setUploading(false);
+//     }
+//   };
+
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     // UPDATE PRODUCT
-      console.log('here', product);
-      
-      dispatch(updateProduct({
-          _id: id,
-          name,
-          price,
-          brand,
-          image,
-          category,
-          description,
-          countInStock,
+    console.log("here", product);
 
-      }))
+    dispatch(
+      updateProduct({
+        _id: id,
+        name,
+        price,
+        brand,
+        image,
+        category,
+        description,
+        countInStock,
+      })
+    );
   };
 
   return (
@@ -126,7 +152,7 @@ const ProductEditPage: React.FC<Props> = ({ location }) => {
                   setImage(e.target.value)
                 }
               ></Form.Control>
-              {/* <Form.File
+              {/* <Form.File 
                 id="image-file"
                 label="Choose file"
                 custom

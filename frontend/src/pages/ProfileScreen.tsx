@@ -58,7 +58,7 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
     if (!userInfo) {
       push("/login");
     } else {
-      if (!user.name) {
+      if (!user?.name) {
         dispatch(getUserDetails("profile"));
         dispatch(myOrders());
       } else {
@@ -76,7 +76,7 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
     } else {
       // DISPATCH UPDATE
       dispatch(
-        updateUserProfileDetails({ id: user._id, name, email, password })
+        updateUserProfileDetails({ id: user?._id, name, email, password })
       );
     }
   };
@@ -86,7 +86,7 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <h4>{message}</h4>}
-        {error && <h4 style={{ color: "red" }}>{error}</h4>}
+        {/* {error && <h4 style={{ color: "red" }}>{error}</h4>} */}
         {success && <h4 style={{ color: "lightgreen" }}>Profile Updated</h4>}
         {loading && <Loading />}
         <Form onSubmit={submitHandler}>
@@ -94,7 +94,7 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="name"
-              placeholder="name"
+              placeholder="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             ></Form.Control>

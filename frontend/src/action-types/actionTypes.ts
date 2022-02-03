@@ -76,6 +76,11 @@ export enum ActionType {
   PRODUCT_UPDATE_SUCCESS = "PRODUCT_UPDATE_SUCCESS",
   PRODUCT_UPDATE_FAIL = "PRODUCT_UPDATE_FAIL",
   PRODUCT_UPDATE_RESET = "PRODUCT_UPDATE_RESET",
+
+  ORDER_LIST_REQUEST = "ORDER_LIST_REQUEST",
+  ORDER_LIST_SUCCESS = "ORDER_LIST_SUCCESS",
+  ORDER_LIST_FAIL = "ORDER_LIST_FAIL",
+  
 }
 
 // props (types of action)
@@ -349,6 +354,19 @@ interface productUpdateReset {
   type: ActionType.PRODUCT_UPDATE_RESET;
   payload: string;
 }
+interface orderListRequest {
+  type: ActionType.ORDER_LIST_REQUEST;
+  payload: string;
+}
+interface orderListSuccess {
+  type: ActionType.ORDER_LIST_SUCCESS;
+  payload: string;
+}
+interface orderListFail {
+  type: ActionType.ORDER_LIST_FAIL;
+  payload: string;
+}
+
 
 export type ActionProps =
   | productRequestAction
@@ -411,4 +429,8 @@ export type ActionProps =
   | productUpdateRequest
   | productUpdateSuccess
   | productUpdateFail
-  | productUpdateReset;
+  | productUpdateReset
+  | orderListRequest
+  | orderListSuccess
+  | orderListFail;
+  

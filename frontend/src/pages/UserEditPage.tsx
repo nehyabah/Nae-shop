@@ -17,8 +17,8 @@ interface Props {
 
 const UserEditPage: React.FC<Props> = ({ location }) => {
   //Use Params
-  const { id } = useParams<{ id?: any }>();
-
+  const { id } = useParams<{ id?: string | undefined }>();
+  console.log(id);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [isAdmin, setisAdmin] = useState<boolean>(false);
@@ -30,6 +30,9 @@ const UserEditPage: React.FC<Props> = ({ location }) => {
     return state.userDetails;
   });
   const { loading, error, user } = userDetails;
+  console.log('error', error);
+  
+  // console.log("user", user);
 
   const userUpdate = useSelector((state: RootState) => {
     return state.userUpdate;
@@ -45,17 +48,15 @@ const UserEditPage: React.FC<Props> = ({ location }) => {
       dispatch({ type: ActionType.USER_UPDATEAD_RESET });
       push("/admin/userlist");
     } else {
-      
-        if (!user.name || user._id !== id) {
-          dispatch(getUserDetails(id));
-        } else {
-          setName(user.name);
-          setEmail(user.email);
-          setisAdmin(user.isAdmin);
-        }
+      if (!user?.name || user?._id !== id) {
+        dispatch(getUserDetails(id));
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+        setisAdmin(user.isAdmin);
       }
     }
-  , [push, dispatch, id, successUpdate]);
+  }, [push, dispatch, id, successUpdate]);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();

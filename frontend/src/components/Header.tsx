@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
@@ -15,8 +15,15 @@ const Header: React.FC = () => {
     return state.userLogin;
   });
   const { userInfo } = userLogin;
-  console.log('userInfo', userInfo);
-  
+  console.log("userInfo", userInfo);
+
+  useEffect(() => {
+    if (userInfo?.name === "Nae Abah" && userInfo?.isAdmin === "false") {
+      console.log("yes, abah");
+    } else {
+      console.log("no, no no");
+    }
+  });
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -54,7 +61,7 @@ const Header: React.FC = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
-              {userInfo && userInfo.isAdmin && (
+              {userInfo?.isAdmin && (
                 <NavDropdown title="Admin" id="adminmenu">
                   <LinkContainer to="/admin/userlist">
                     <NavDropdown.Item>Users</NavDropdown.Item>

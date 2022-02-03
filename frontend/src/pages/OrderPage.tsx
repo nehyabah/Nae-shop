@@ -75,19 +75,19 @@ const OrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
     }
   }, [dispatch, orderId, successPay, order]);
 
-  if (!loading) {
-    // calculate prices
-    const addDecimal = (num: number) => {
-      return (Math.round(num * 100) / 100).toFixed(2);
-    };
+  // if (!loading) {
+  //   // calculate prices
+  //   const addDecimal = (num: number) => {
+  //     return (Math.round(num * 100) / 100).toFixed(2);
+  //   };
 
-    order.itemsPrice = addDecimal(
-      order.orderItems.reduce(
-        (acc: any, item: any) => acc + item.price * item.qty,
-        0
-      )
-    );
-  }
+  //   order.itemsPrice = addDecimal(
+  //     order?.orderItems.reduce(
+  //       (acc: any, item: any) => acc + item.price * item.qty,
+  //       0
+  //     )
+  //   );
+  // }
 
   const successPaymentHandler = (paymentResult: any) => {
     dispatch(payOrder(orderId, paymentResult));
