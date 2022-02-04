@@ -105,7 +105,7 @@ interface paymentResultProps {
 }
 
 export const payOrder =
-  (orderId: string | undefined, paymentResult: paymentResultProps) =>
+  (orderId: any, paymentResult: paymentResultProps) =>
   async (dispatch: Dispatch, getState: () => RootState) => {
     try {
       dispatch({
@@ -141,7 +141,48 @@ export const payOrder =
             : error.message,
       });
     }
-  };
+    };
+  
+
+    export const deliverOrder =
+      (order: any) =>
+      async (dispatch: Dispatch, getState: () => RootState) => {
+        try {
+          dispatch({
+            type: ActionType.ORDER_DELIVER_REQUEST,
+          });
+
+          const {
+            userLogin: { userInfo },
+          } = getState();
+          const config = {
+            headers: {
+              
+              Authorization: `Bearer ${userInfo.token}`,
+            },
+          };
+
+          const { data } = await axios.put(
+            `/api/orders/${order._id}/deliver`,
+            {},
+           
+            config
+          );
+
+          dispatch({
+            type: ActionType.ORDER_DELIVER_SUCCESS,
+            payload: data,
+          });
+        } catch (error: any) {
+          dispatch({
+            type: ActionType.ORDER_DELIVER_FAIL,
+            payload:
+              error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message,
+          });
+        }
+      };
 
 export const myOrders =
   () => async (dispatch: Dispatch, getState: () => RootState) => {

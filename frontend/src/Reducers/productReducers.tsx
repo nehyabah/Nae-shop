@@ -1,5 +1,21 @@
 import { ActionType, ActionProps } from "../action-types/actionTypes";
 
+
+
+interface ProductUpdate {
+  
+  product?: {
+    brand?: string;
+    category?: string;
+    countInStock?: number;
+    description?: string;
+    image?: string;
+    name?: string;
+    price?: number;
+  };
+}
+
+
 export const productListReducer = (
   state = { products: [] },
   action: ActionProps
@@ -68,6 +84,20 @@ export const productUpdateReducer = (state = {product:{}}, action: ActionProps) 
       return { loading: false, error: action.payload };
     case ActionType.PRODUCT_UPDATE_RESET:
       return {product:{}};
+    default:
+      return state;
+  }
+};
+export const productReviewCreateReducer = (state: ProductUpdate = {}, action: ActionProps) => {
+  switch (action.type) {
+    case ActionType.PRODUCT_CREATE_REVIEW_REQUEST:
+      return { loading: true };
+    case ActionType.PRODUCT_CREATE_REVIEW_SUCCESS:
+      return { loading: false, success: true };
+    case ActionType.PRODUCT_CREATE_REVIEW_FAIL:
+      return { loading: false, error: action.payload };
+    case ActionType.PRODUCT_CREATE_REVIEW_RESET:
+      return {};
     default:
       return state;
   }

@@ -5,13 +5,19 @@ import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoute from "./routes/userRoutes.js";
 import orderRoute from "./routes/orderRoutes.js";
-import uploadRoute from "./routes/uploadRoutes.js";
+import morgan from 'morgan';
+import uploadRoutes from "./routes/uploadRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 connectDB();
 
 const app = express();
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
+
 app.use(express.json())
 
 app.get("/", (req, res) => {
@@ -21,7 +27,7 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoute);
 app.use("/api/orders", orderRoute);
-app.use("/api/upload", uploadRoute);
+app.use("/api/upload", uploadRoutes);
 app.get("/api/config/paypal", (req, res) => {res.send(process.env.PAYPAL_CLIENT_ID);})
 
 

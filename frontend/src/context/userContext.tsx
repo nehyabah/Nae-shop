@@ -26,6 +26,7 @@ export const login =
       });
 
       localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem("token", data.token);
     } catch (error: any) {
       dispatch({
         type: ActionType.USER_LOGIN_FAIL,
@@ -41,6 +42,8 @@ export const logout = () => (dispatch: Dispatch) => {
   localStorage.removeItem("cartItems");
   localStorage.removeItem("shippingAddress");
   localStorage.removeItem("token");
+  localStorage.removeItem("paymentMethod");
+  localStorage.removeItem("__paypal_storage__");
   dispatch({ type: ActionType.USER_LOGOUT });
   dispatch({ type: ActionType.USER_DETAILS_RESET });
   dispatch({ type: ActionType.MY_ORDER_LIST_RESET });
@@ -96,9 +99,9 @@ export const getUserDetails =
       });
 
       const userToken = localStorage.getItem("token");
-      const {
-        userLogin: { userInfo },
-      } = getState();
+      // const {
+      //   userLogin: { userInfo },
+      // } = getState();
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -139,9 +142,9 @@ export const updateUserProfileDetails =
         type: ActionType.USER_UPDATE_REQUEST,
       });
       const userToken = localStorage.getItem("token");
-      const {
-        userLogin: { userInfo },
-      } = getState();
+      // const {
+      //   userLogin: { userInfo },
+      // } = getState();
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -150,10 +153,18 @@ export const updateUserProfileDetails =
       };
 
       const { data } = await axios.put(`/api/users/profile`, user, config);
+      console.log("data", data);
+
       dispatch({
         type: ActionType.USER_UPDATE_SUCCESS,
         payload: data,
       });
+      dispatch({
+        type: ActionType.USER_LOGIN_SUCCESS,
+        payload: data,
+      });
+
+      localStorage.setItem('userInfo', JSON.stringify(data))
     } catch (error: any) {
       dispatch({
         type: ActionType.USER_UPDATE_FAIL,

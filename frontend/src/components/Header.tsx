@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+// import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+// import { Route } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import { useNavigate } from "react-router";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { RootState } from "../reduxStore";
+import SearchBox from "./SearchBox";
 
 import { logout } from "../context/userContext";
 
@@ -11,22 +14,15 @@ import { logout } from "../context/userContext";
 // }
 const Header: React.FC = () => {
   const dispatch = useDispatch();
+  const push = useNavigate();
   const userLogin = useSelector((state: RootState) => {
     return state.userLogin;
   });
   const { userInfo } = userLogin;
-  console.log("userInfo", userInfo);
-
-  useEffect(() => {
-    if (userInfo?.name === "Nae Abah" && userInfo?.isAdmin === "false") {
-      console.log("yes, abah");
-    } else {
-      console.log("no, no no");
-    }
-  });
 
   const logoutHandler = () => {
     dispatch(logout());
+    push("/login");
   };
   return (
     <header>
@@ -38,6 +34,8 @@ const Header: React.FC = () => {
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+            {/* <Route render={(push) => <SearchBox push={ push}/> }/> */}
+            <SearchBox/>
             <Nav className="ms-auto">
               <LinkContainer to="/cart/:id">
                 <Nav.Link>

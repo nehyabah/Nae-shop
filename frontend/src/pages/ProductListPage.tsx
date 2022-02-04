@@ -73,19 +73,19 @@ const ProductListPage: React.FC<Props> = () => {
 
   return (
     <>
-      <Row className="align-items-center">
+      <Row className="d-flex ">
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col className="text-right">
+        <Col className="text-right justify-content-end">
           <Button className="my-3" onClick={createProductHandler}>
             <i className="fas fa-plus"></i> Create Product
           </Button>
         </Col>
       </Row>
       {loadingDelete && <Loading />}
-          {errorDelete && <Message variant="danger">{errorDelete}</Message>}
-          
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
+
       {loadingCreate && <Loading />}
       {errorCreate && <Message variant="danger">{errorCreate}</Message>}
       {loading ? (

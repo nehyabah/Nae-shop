@@ -77,9 +77,21 @@ export enum ActionType {
   PRODUCT_UPDATE_FAIL = "PRODUCT_UPDATE_FAIL",
   PRODUCT_UPDATE_RESET = "PRODUCT_UPDATE_RESET",
 
+
+  PRODUCT_CREATE_REVIEW_REQUEST = "PRODUCT_CREATE_REVIEW_REQUEST",
+  PRODUCT_CREATE_REVIEW_SUCCESS = "PRODUCT_CREATE_REVIEW_SUCCESS",
+  PRODUCT_CREATE_REVIEW_FAIL = "PRODUCT_CREATE_REVIEW_FAIL",
+  PRODUCT_CREATE_REVIEW_RESET = "PRODUCT_CREATE_REVIEW_RESET",
+
   ORDER_LIST_REQUEST = "ORDER_LIST_REQUEST",
   ORDER_LIST_SUCCESS = "ORDER_LIST_SUCCESS",
   ORDER_LIST_FAIL = "ORDER_LIST_FAIL",
+
+
+  ORDER_DELIVER_REQUEST = "ORDER_DELIVER_REQUEST",
+  ORDER_DELIVER_SUCCESS = "ORDER_DELIVER_SUCCESS",
+  ORDER_DELIVER_FAIL = "ORDER_DELIVER_FAIL",
+  ORDER_DELIVER_RESET = "ORDER_DELIVER_RESET",
   
 }
 
@@ -367,6 +379,41 @@ interface orderListFail {
   payload: string;
 }
 
+interface orderDeliverRequest {
+  type: ActionType.ORDER_DELIVER_REQUEST;
+  payload: string;
+}
+interface orderDeliverSuccess {
+  type: ActionType.ORDER_DELIVER_SUCCESS;
+  payload: string;
+}
+interface orderDeliverFail {
+  type: ActionType.ORDER_DELIVER_FAIL;
+  payload: string;
+}
+interface orderDeliverReset {
+  type: ActionType.ORDER_DELIVER_RESET;
+  payload: string;
+}
+
+interface productCreateReviewRequest {
+  type: ActionType.PRODUCT_CREATE_REVIEW_REQUEST;
+  payload: string;
+}
+interface productCreateReviewSuccess {
+  type: ActionType.PRODUCT_CREATE_REVIEW_SUCCESS;
+  payload: string;
+}
+interface productCreateReviewFail {
+  type: ActionType.PRODUCT_CREATE_REVIEW_FAIL;
+  payload: string;
+}
+interface productCreateReviewReset {
+  type: ActionType.PRODUCT_CREATE_REVIEW_RESET;
+  payload: string;
+}
+
+
 
 export type ActionProps =
   | productRequestAction
@@ -432,5 +479,13 @@ export type ActionProps =
   | productUpdateReset
   | orderListRequest
   | orderListSuccess
-  | orderListFail;
+  | orderListFail
+  | orderDeliverRequest
+  | orderDeliverSuccess
+  | orderDeliverFail
+  | orderDeliverReset
+  | productCreateReviewRequest
+  | productCreateReviewSuccess
+  | productCreateReviewFail
+  | productCreateReviewReset;
   

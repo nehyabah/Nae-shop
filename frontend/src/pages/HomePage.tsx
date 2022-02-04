@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
+
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loading from "../components/Loading";
 import { listProducts } from "../context/productContext";
-
+import { useParams } from "react-router";
 import { RootState } from "../reduxStore";
 import { ProductType } from "../components/Product";
 
@@ -15,6 +16,9 @@ interface HomePagePropTypes {
 }
 
 const HomePage: React.FC<HomePagePropTypes> = () => {
+
+const { keyword } = useParams<{ keyword: string }>();
+
   const dispatch = useDispatch();
 
   const productList = useSelector((state: RootState) => {
@@ -28,11 +32,12 @@ const HomePage: React.FC<HomePagePropTypes> = () => {
     productList;
 
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>
+      
       <h1>Latest products</h1>
       {loading ? (
         <Loading />

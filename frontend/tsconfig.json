@@ -28,5 +28,5 @@
     "**/*.ts",
     "**/*.tsx",
     "*test.ts*"
-  ]
+, "src/components/SearchBox.tsx"  ]
 }

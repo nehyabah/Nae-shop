@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
@@ -10,7 +10,7 @@ import { listProductDetails, updateProduct } from "../context/productContext";
 import { RootState } from "../reduxStore";
 import { useNavigate, useParams } from "react-router";
 import { ActionType } from "../action-types/actionTypes";
-import { productListReducer } from "../Reducers/productReducers";
+// import { productListReducer } from "../Reducers/productReducers";
 
 interface Props {
   location?: any;
@@ -28,7 +28,7 @@ const ProductEditPage: React.FC<Props> = ({ location }) => {
   const [brand, setBrand] = useState<string>("");
   const [countInStock, setCountInStock] = useState<number>(0);
   const [description, setDescription] = useState<string>("");
-  const [uploading, setUploading] = useState<boolean>(false);
+  // const [uploading, setUploading] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const push = useNavigate();
@@ -48,6 +48,11 @@ const ProductEditPage: React.FC<Props> = ({ location }) => {
   } = productUpdate;
 
   useEffect(() => {
+    const product = JSON.parse(localStorage.getItem("All Products") as string);
+    dispatch({ type: ActionType.SINGLE_PRODUCT_SUCCESS, payload: product });
+  }, [dispatch]);
+
+  useEffect(() => {
     if (successUpdate) {
       dispatch({ type: ActionType.PRODUCT_UPDATE_RESET });
       push("/admin/productlist");
@@ -57,7 +62,7 @@ const ProductEditPage: React.FC<Props> = ({ location }) => {
           dispatch(listProductDetails(id));
         } else {
           setName(product.name);
-          setPrice(product.email);
+          setPrice(product.price);
           setImage(product.image);
           setCategory(product.category);
           setBrand(product.brand);
@@ -68,26 +73,26 @@ const ProductEditPage: React.FC<Props> = ({ location }) => {
     }
   }, [dispatch, push, id, product, successUpdate]);
 
-//   const uploadFileHandler = async (e: any) => {
-//     const file = e.target.files[0];
-//     const formData = new FormData();
-//     formData.append("image", file);
-//     setUploading(true);
+  // const uploadFileHandler = async (e: any) => {
+  //   const file = e.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append("image", file);
+  //   setUploading(true);
 
-//     try {
-//       const config = {
-//         headers: {
-//           "Content-Type": "multipart/form-data",
-//         },
-//       };
-//       const { data } = await axios.post("api/upload", formData, config);
-//       setImage(data);
-//       setUploading(false);
-//     } catch (error) {
-//       console.error(error);
-//       setUploading(false);
-//     }
-//   };
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     };
+  //     const { data } = await axios.post("api/upload", formData, config);
+  //     setImage(data);
+  //     setUploading(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setUploading(false);
+  //   }
+  // };
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();

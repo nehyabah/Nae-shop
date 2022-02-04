@@ -11,6 +11,7 @@ import {
 } from "../context/userContext";
 import { RootState } from "../reduxStore";
 import { myOrders } from "../context/orderContext";
+import { ActionType } from "../action-types/actionTypes";
 
 interface Props {
   location?: any;
@@ -58,7 +59,8 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
     if (!userInfo) {
       push("/login");
     } else {
-      if (!user?.name) {
+      if (!user || !user?.name || success) {
+        dispatch({type: ActionType.USER_UPDATE_RESET})
         dispatch(getUserDetails("profile"));
         dispatch(myOrders());
       } else {
@@ -66,7 +68,7 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
         setEmail(user.email);
       }
     }
-  }, [dispatch, push, userInfo, user]);
+  }, [dispatch, push, userInfo, user, success]);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,7 +88,7 @@ const ProfilePage: React.FC<Props> = ({ location }) => {
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <h4>{message}</h4>}
-        {/* {error && <h4 style={{ color: "red" }}>{error}</h4>} */}
+        {error && <h4 style={{ color: "red" }}>{error}</h4>}
         {success && <h4 style={{ color: "lightgreen" }}>Profile Updated</h4>}
         {loading && <Loading />}
         <Form onSubmit={submitHandler}>

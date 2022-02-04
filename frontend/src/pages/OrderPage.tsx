@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
-import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reduxStore";
+import { useNavigate } from "react-router";
 import Message from "../components/Message";
 import { Link, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
-import { getOrderDetails, payOrder } from "../context/orderContext";
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder,
+} from "../context/orderContext";
 import { ActionType } from "../action-types/actionTypes";
 
 interface cartItemProps {
@@ -38,19 +43,33 @@ const OrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
   const dispatch = useDispatch();
   const { id: orderId } = useParams<{ id?: string }>();
   const [sdkReady, setSdkReady] = useState<boolean>(false);
+
   const orderDetails = useSelector((state: RootState) => {
     return state.orderDetails;
   });
-
   const { order, loading, error } = orderDetails;
+
+  const userLogin = useSelector((state: RootState) => {
+    return state.userLogin;
+  });
+  const { userInfo } = userLogin;
 
   const orderPay = useSelector((state: RootState) => {
     return state.orderPay;
   });
-
   const { loading: loadingPay, success: successPay } = orderPay;
 
+  const orderDeliver = useSelector((state: RootState) => {
+    return state.orderDeliver;
+  });
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+
+  const push = useNavigate();
+
   useEffect(() => {
+    if (!userInfo) {
+      push("/login");
+    }
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get("/api/config/paypal");
       const script = document.createElement("script");
@@ -63,8 +82,10 @@ const OrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay) {
+    if (!order || successPay || successDeliver) {
       dispatch({ type: ActionType.ORDER_PAY_RESET });
+      dispatch({ type: ActionType.ORDER_DELIVER_RESET });
+
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -73,24 +94,28 @@ const OrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, order]);
+  }, [dispatch, orderId, successPay, order, successDeliver, push, userInfo]);
 
-  // if (!loading) {
-  //   // calculate prices
-  //   const addDecimal = (num: number) => {
-  //     return (Math.round(num * 100) / 100).toFixed(2);
-  //   };
+  if (!loading) {
+    // calculate prices
+    const addDecimal = (num: number) => {
+      return (Math.round(num * 100) / 100).toFixed(2);
+    };
 
-  //   order.itemsPrice = addDecimal(
-  //     order?.orderItems.reduce(
-  //       (acc: any, item: any) => acc + item.price * item.qty,
-  //       0
-  //     )
-  //   );
-  // }
+    order.itemsPrice = addDecimal(
+      order?.orderItems.reduce(
+        (acc: any, item: any) => acc + item.price * item.qty,
+        0
+      )
+    );
+  }
 
   const successPaymentHandler = (paymentResult: any) => {
     dispatch(payOrder(orderId, paymentResult));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
   };
 
   return loading ? (
@@ -212,6 +237,21 @@ const OrderPage: React.FC<cartItemProps> = ({ price, qty }) => {
                   )}
                 </ListGroup.Item>
               )}
+              {loadingDeliver && <Loading />}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={deliverHandler}
+                    >
+                      Out for Delivery
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>
